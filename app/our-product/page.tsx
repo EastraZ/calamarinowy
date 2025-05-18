@@ -674,55 +674,60 @@ export default function ProductPage() {
         )}
 
         {/* Pricing Tab */}
-        {activeTab === "pricing" && (
-          <div id="pricing-section" className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
-            {plans.map((plan, index) => (
-              <div
-                key={index}
-                className={`bg-[#0f0a0a]/80 backdrop-blur-sm border ${
-                  plan.popular ? "border-white/20" : "border-gray-800"
-                } rounded-md p-6 ${plan.popular ? "relative" : "hover:border-white/30"} transition-all duration-300`}
-              >
-                {plan.popular && (
-                  <div className="absolute -top-3 left-0 right-0 flex justify-center">
-                    <div className="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">MOST POPULAR</div>
-                  </div>
-                )}
-                <div className="text-center mb-6">
-                  <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
-                  <div className="text-3xl font-bold text-white mb-2">{plan.price}</div>
-                  <p className="text-gray-400">{plan.description}</p>
-                </div>
-                <ul className="space-y-3 mb-6">
-                  {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-center">
-                      <Check className="h-5 w-5 text-green-500 mr-2" />
-                      <span className="text-gray-300">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-                                         <div className="w-full flex justify-center">
-  <button
-    type="button"
-    className="sellauth-button bg-white/10 hover:bg-white/20 py-2 px-6 rounded-md text-center text-white cursor-pointer"
-    dangerouslySetInnerHTML={{
-      __html: "Purchase Now",
-    }}
-    onClick={(e) => {
-      if (window.sellAuthEmbed) {
-        window.sellAuthEmbed.checkout(e.currentTarget, {
-          cart: [{ productId: 332080, variantId: 460554, quantity: 1 }],
-          shopId: 149961,
-          modal: true,
-        });
-      }
-    }}
-  />
-</div>
-              </div>
-            ))}
+{activeTab === "pricing" && (
+  <div id="pricing-section" className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+    {plans.map((plan, index) => (
+      <div
+        key={index}
+        className={`bg-[#0f0a0a]/80 backdrop-blur-sm border ${
+          plan.popular ? "border-white/20" : "border-gray-800"
+        } rounded-md p-6 ${plan.popular ? "relative" : "hover:border-white/30"} transition-all duration-300`}
+      >
+        {plan.popular && (
+          <div className="absolute -top-3 left-0 right-0 flex justify-center">
+            <div className="bg-white/20 text-white text-xs font-bold px-3 py-1 rounded-full">MOST POPULAR</div>
           </div>
         )}
+
+        <div className="text-center mb-6">
+          <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
+          <div className="text-3xl font-bold text-white mb-2">{plan.price}</div>
+          <p className="text-gray-400">{plan.description}</p>
+        </div>
+
+        <ul className="space-y-3 mb-6">
+          {plan.features.map((feature, featureIndex) => (
+            <li key={featureIndex} className="flex items-center">
+              <Check className="h-5 w-5 text-green-500 mr-2" />
+              <span className="text-gray-300">{feature}</span>
+            </li>
+          ))}
+        </ul>
+
+        {/* SellAuth Centered Button */}
+        <div className="w-full flex justify-center">
+          <button
+            type="button"
+            className="sellauth-button bg-white/10 hover:bg-white/20 py-2 px-6 rounded-md text-white cursor-pointer text-center"
+            dangerouslySetInnerHTML={{
+              __html: "Purchase Now",
+            }}
+            onClick={(e) => {
+              if (window.sellAuthEmbed) {
+                window.sellAuthEmbed.checkout(e.currentTarget, {
+                  cart: [{ productId: plan.productId, variantId: plan.variantId, quantity: 1 }],
+                  shopId: 149961,
+                  modal: true,
+                });
+              }
+            }}
+          />
+        </div>
+      </div>
+    ))}
+  </div>
+)}
+
 
         {/* Requirements Tab */}
         {activeTab === "requirements" && (
