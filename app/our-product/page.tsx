@@ -701,14 +701,24 @@ export default function ProductPage() {
                     </li>
                   ))}
                 </ul>
-                <a
-                  href="https://calamari.sellsn.io/group/bdaf8b4e-38dd-48d3-999e-de03f5df3dc2?p=f67c6c86-b0b6-4a4e-852b-3f1ebbf51b05"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full text-center bg-white/10 hover:bg-white/20 py-2 rounded-md transition-colors"
-                >
-                  Purchase Now
-                </a>
+                                         <div className="w-full flex justify-center">
+  <button
+    type="button"
+    className="sellauth-button bg-white/10 hover:bg-white/20 py-2 px-6 rounded-md text-center text-white cursor-pointer"
+    dangerouslySetInnerHTML={{
+      __html: "Purchase Now",
+    }}
+    onClick={(e) => {
+      if (window.sellAuthEmbed) {
+        window.sellAuthEmbed.checkout(e.currentTarget, {
+          cart: [{ productId: 332080, variantId: 460554, quantity: 1 }],
+          shopId: 149961,
+          modal: true,
+        });
+      }
+    }}
+  />
+</div>
               </div>
             ))}
           </div>
