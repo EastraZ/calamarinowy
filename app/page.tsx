@@ -675,8 +675,8 @@ export default function Home() {
                 onClick={(e) => {
                   if (window.sellAuthEmbed) {
                     window.sellAuthEmbed.checkout(e.currentTarget, {
-                      cart: [{ productId: 329666, variantId: 456516, quantity: 1 }],
-                      shopId: 14996,
+                      cart: [{ productId: 332080, variantId: 460533, quantity: 1 }],
+                      shopId: 149961,
                       modal: true,
                     })
                   }
@@ -796,8 +796,8 @@ export default function Home() {
                 onClick={(e) => {
                   if (window.sellAuthEmbed) {
                     window.sellAuthEmbed.checkout(e.currentTarget, {
-                      cart: [{ productId: 329666, variantId: 456516, quantity: 1 }],
-                      shopId: 14996,
+                      cart: [{ productId: 332080, variantId: 460553, quantity: 1 }],
+                      shopId: 149961,
                       modal: true,
                     })
                   }
@@ -897,8 +897,8 @@ export default function Home() {
                 onClick={(e) => {
                   if (window.sellAuthEmbed) {
                     window.sellAuthEmbed.checkout(e.currentTarget, {
-                      cart: [{ productId: 329666, variantId: 456516, quantity: 1 }],
-                      shopId: 14996,
+                      cart: [{ productId: 332080, variantId: 460554, quantity: 1 }],
+                      shopId: 149961,
                       modal: true,
                     })
                   }
@@ -998,8 +998,8 @@ export default function Home() {
                 onClick={(e) => {
                   if (window.sellAuthEmbed) {
                     window.sellAuthEmbed.checkout(e.currentTarget, {
-                      cart: [{ productId: 329666, variantId: 456516, quantity: 1 }],
-                      shopId: 14996,
+                      cart: [{ productId: 332080, variantId: 460555, quantity: 1 }],
+                      shopId: 149961,
                       modal: true,
                     })
                   }
