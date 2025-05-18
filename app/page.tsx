@@ -676,7 +676,7 @@ export default function Home() {
                   if (window.sellAuthEmbed) {
                     window.sellAuthEmbed.checkout(e.currentTarget, {
                       cart: [{ productId: 329666, variantId: 456516, quantity: 1 }],
-                      shopId: 14996,
+                      shopId: 149961,
                       modal: true,
                     })
                   }
@@ -797,7 +797,7 @@ export default function Home() {
                   if (window.sellAuthEmbed) {
                     window.sellAuthEmbed.checkout(e.currentTarget, {
                       cart: [{ productId: 329666, variantId: 456516, quantity: 1 }],
-                      shopId: 14996,
+                      shopId: 149961,
                       modal: true,
                     })
                   }
@@ -898,7 +898,7 @@ export default function Home() {
                   if (window.sellAuthEmbed) {
                     window.sellAuthEmbed.checkout(e.currentTarget, {
                       cart: [{ productId: 329666, variantId: 456516, quantity: 1 }],
-                      shopId: 14996,
+                      shopId: 149961,
                       modal: true,
                     })
                   }
@@ -999,7 +999,7 @@ export default function Home() {
                   if (window.sellAuthEmbed) {
                     window.sellAuthEmbed.checkout(e.currentTarget, {
                       cart: [{ productId: 329666, variantId: 456516, quantity: 1 }],
-                      shopId: 14996,
+                      shopId: 149961,
                       modal: true,
                     })
                   }
