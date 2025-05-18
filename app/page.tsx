@@ -666,22 +666,25 @@ export default function Home() {
                 </li>
               </ul>
               {/* SellAuth Button - Exactly as provided by the user */}
-              <button
-                type="button"
-                className="sellauth-button w-full bg-white/10 hover:bg-white/20 py-2 rounded-md text-center text-white cursor-pointer"
-                dangerouslySetInnerHTML={{
-                  __html: "Purchase Now",
-                }}
-                onClick={(e) => {
-                  if (window.sellAuthEmbed) {
-                    window.sellAuthEmbed.checkout(e.currentTarget, {
-                      cart: [{ productId: 329666, variantId: 456516, quantity: 1 }],
-                      shopId: 149961,
-                      modal: true,
-                    })
-                  }
-                }}
-              />
+         <div className="w-full flex justify-center">
+  <button
+    type="button"
+    className="sellauth-button bg-white/10 hover:bg-white/20 py-2 px-6 rounded-md text-center text-white cursor-pointer"
+    dangerouslySetInnerHTML={{
+      __html: "Purchase Now",
+    }}
+    onClick={(e) => {
+      if (window.sellAuthEmbed) {
+        window.sellAuthEmbed.checkout(e.currentTarget, {
+          cart: [{ productId: 329666, variantId: 456516, quantity: 1 }],
+          shopId: 149961,
+          modal: true,
+        })
+      }
+    }}
+  />
+</div>
+
             </motion.div>
 
             {/* 7 Days Plan */}
