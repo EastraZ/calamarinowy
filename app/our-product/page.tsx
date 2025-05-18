@@ -486,7 +486,7 @@ export default function ProductPage() {
       title: "Apex Legends",
       description:
         "Dominate the arena with our premium Apex Legends hack. Track enemies, find the best loot, and improve your aim with our advanced features.",
-      image: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-EBvd8CRWjqq2e0YAfqGZwa8L5SFecx.png",
+      image: "https://cdn.discordapp.com/attachments/1334230503414567045/1372238452807962685/image.png?ex=682b5226&is=682a00a6&hm=8a0afe86da09ed7329a3cbc4596034e67fc25be43504b12c78f3b359316e92d6&",
       lastUpdated: "May 11, 2025",
       version: "v2.3.1",
     },
