@@ -1003,7 +1003,7 @@ export default function Home() {
     onClick={(e) => {
       if (window.sellAuthEmbed) {
         window.sellAuthEmbed.checkout(e.currentTarget, {
-          cart: [{ productId: 329666, variantId: 456519, quantity: 1 }],
+          cart: [{ productId: 329666, variantId: 45651911, quantity: 1 }],
           shopId: 149961,
           modal: true,
         });
