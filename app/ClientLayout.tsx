@@ -16,7 +16,7 @@ export default function ClientLayout({
     if (!document.getElementById("sellauth-script")) {
       const script = document.createElement("script")
       script.id = "sellauth-script"
-      script.src = "https://sellauth.com/assets/js/sellauth-embed-2.js"
+      script.src = "https://sellgang.com/embed.js"
       script.async = true
       document.head.appendChild(script)
     }
