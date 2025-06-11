@@ -217,3 +217,5 @@ export default function PressKitPage() {
                   <div className="p-6">
                     <div className="space-y-4">
                 \
+
+}

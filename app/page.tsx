@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import Navbar from "@/components/navbar"
 import PageTransition from "@/components/page-transition"
+import PageTransition from "@/components/page-transition"
 import ScientistModelViewer from "@/components/scientist-model"
 import FloatingStats from "@/components/floating-stats"
 import { Play, Rocket, Sparkles, ChevronDown, X } from "lucide-react"
@@ -1221,4 +1222,6 @@ export default function Home() {
       </motion.main>
     </PageTransition>
   )
+}
+
 }
