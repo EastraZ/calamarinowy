@@ -1,39 +1,66 @@
-"use client";
+"use client"
 
-import { createContext, useContext, useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React, { useState, useEffect, createContext, useContext } from "react"
 
-const AuthContext = createContext();
+export interface User {
+  id: string
+  email: string
+  username: string
+  displayName?: string
+  avatar?: string
+  bio?: string
+  createdAt: string
+  emailVerified: boolean
+  isAdmin: boolean
+  subscription?: {
+    plan: string
+    expiresAt: string
+    active: boolean
+    key?: string
+  }
+  lastLogin?: string
+  loginHistory?: LoginEntry[]
+}
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const router = useRouter();
+export interface LoginEntry {
+  id: string
+  date: string
+  device: string
+  location: string
+  ip: string
+  status: "success" | "failed"
+}
 
-  const login = async (email, password) => {
-    // Implement login logic
-  };
+interface AuthContextType {
+  user: User | null
+  login: (email: string, password: string) => void
+  register: (email: string, password: string) => void
+}
 
-  const register = async (email, password) => {
-    // Implement registration logic
-  };
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
+
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null)
+
+  const login = (email: string, password: string) => {
+    console.log("Login:", email)
+  }
+
+  const register = (email: string, password: string) => {
+    console.log("Register:", email)
+  }
 
   return (
-    <AuthContext.Provider
-      value={{
-        user,
-        login,
-        register,
-      }}
-    >
+    <AuthContext.Provider value={{ user, login, register }}>
       {children}
     </AuthContext.Provider>
-  );
-};
+  )
+}
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(AuthContext)
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error("useAuth must be used within an AuthProvider")
   }
-  return context;
-};
+  return context
+}
