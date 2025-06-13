@@ -12,7 +12,7 @@ export default function FeatureComparison() {
   }, [])
 
   const features = [
-    { name: "AI-Powered Aimbot", calamari: true, competitor1: false, competitor2: true },
+    { name: "Magic Bullet", calamari: true, competitor1: false, competitor2: true },
     { name: "Advanced ESP", calamari: true, competitor1: true, competitor2: true },
     { name: "HWID Spoofer", calamari: true, competitor1: true, competitor2: false },
     { name: "Kernel-Level Protection", calamari: true, competitor1: false, competitor2: false },
@@ -45,19 +45,28 @@ export default function FeatureComparison() {
               <th className="p-4 text-left text-gray-400 font-medium">Feature</th>
               <th className="p-4 text-center">
                 <div className="flex flex-col items-center">
+                  <div className="h-12 w-12 mb-2 relative">
+                    <img src="/images/calamari-box.png" alt="Calamari Logo" className="object-contain w-full h-full" />
+                  </div>
                   <div className="text-red-400 font-bold mb-1">Calamari</div>
                   <div className="text-xs text-gray-500">Premium</div>
                 </div>
               </th>
               <th className="p-4 text-center">
                 <div className="flex flex-col items-center">
-                  <div className="text-gray-300 font-bold mb-1">Competitor A</div>
+                  <div className="h-12 w-12 mb-2 bg-gray-800 rounded-md flex items-center justify-center">
+                    <span className="text-gray-400 font-bold text-sm">MEK</span>
+                  </div>
+                  <div className="text-gray-300 font-bold mb-1">MEK</div>
                   <div className="text-xs text-gray-500">Standard</div>
                 </div>
               </th>
               <th className="p-4 text-center">
                 <div className="flex flex-col items-center">
-                  <div className="text-gray-300 font-bold mb-1">Competitor B</div>
+                  <div className="h-12 w-12 mb-2 bg-blue-900/30 rounded-md flex items-center justify-center border border-blue-500/30">
+                    <span className="text-blue-400 font-bold text-xs">FLUENT</span>
+                  </div>
+                  <div className="text-gray-300 font-bold mb-1">Fluent</div>
                   <div className="text-xs text-gray-500">Premium</div>
                 </div>
               </th>

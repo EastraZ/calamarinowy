@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion"
 import { Check, Gamepad2, Monitor, Cpu } from "lucide-react"
-import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import MatrixRain from "@/components/matrix-rain"
 import Image from "next/image"
@@ -13,7 +12,7 @@ export default function GamesSupportedPage() {
       name: "Rust",
       image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
-      features: ["Aimbot", "ESP", "Recoil Control", "Item ESP", "Player Radar", "Admin Detection"],
+      features: ["Magic Bullet", "ESP", "Recoil Control", "Item ESP", "Player Radar", "Admin Detection"],
       platforms: {
         pc: true,
         console: true,
@@ -24,7 +23,7 @@ export default function GamesSupportedPage() {
       name: "Fortnite",
       image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
-      features: ["Aimbot", "ESP", "Build Assist", "Loot ESP", "Player Tracker", "Storm Warning"],
+      features: ["Magic Bullet", "ESP", "Build Assist", "Loot ESP", "Player Tracker", "Storm Warning"],
       platforms: {
         pc: true,
         console: true,
@@ -35,7 +34,7 @@ export default function GamesSupportedPage() {
       name: "Apex Legends",
       image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
-      features: ["Aimbot", "ESP", "Recoil Control", "Item ESP", "Enemy Tracker", "Ultimate Timer"],
+      features: ["Magic Bullet", "ESP", "Recoil Control", "Item ESP", "Enemy Tracker", "Ultimate Timer"],
       platforms: {
         pc: true,
         console: true,
@@ -46,7 +45,7 @@ export default function GamesSupportedPage() {
       name: "Call of Duty: Warzone",
       image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
-      features: ["Aimbot", "ESP", "Recoil Control", "Loot ESP", "UAV Always On", "Heartbeat Sensor"],
+      features: ["Magic Bullet", "ESP", "Recoil Control", "Loot ESP", "UAV Always On", "Heartbeat Sensor"],
       platforms: {
         pc: true,
         console: true,
@@ -57,7 +56,7 @@ export default function GamesSupportedPage() {
       name: "Counter-Strike 2",
       image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
-      features: ["Aimbot", "ESP", "Recoil Control", "Sound ESP", "Radar Hack", "Anti-Flash"],
+      features: ["Magic Bullet", "ESP", "Recoil Control", "Sound ESP", "Radar Hack", "Anti-Flash"],
       platforms: {
         pc: true,
         console: false,
@@ -68,7 +67,7 @@ export default function GamesSupportedPage() {
       name: "Valorant",
       image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
-      features: ["Aimbot", "ESP", "Recoil Control", "Ability Tracker", "Spike Timer", "Ultimate Counter"],
+      features: ["Magic Bullet", "ESP", "Recoil Control", "Ability Tracker", "Spike Timer", "Ultimate Counter"],
       platforms: {
         pc: true,
         console: false,
@@ -79,7 +78,7 @@ export default function GamesSupportedPage() {
       name: "PUBG",
       image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
-      features: ["Aimbot", "ESP", "Recoil Control", "Vehicle ESP", "Loot ESP", "Zone Predictor"],
+      features: ["Magic Bullet", "ESP", "Recoil Control", "Vehicle ESP", "Loot ESP", "Zone Predictor"],
       platforms: {
         pc: true,
         console: true,
@@ -90,7 +89,7 @@ export default function GamesSupportedPage() {
       name: "Escape from Tarkov",
       image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
-      features: ["Aimbot", "ESP", "Recoil Control", "Item ESP", "Extraction Points", "Scav Detection"],
+      features: ["Magic Bullet", "ESP", "Recoil Control", "Item ESP", "Extraction Points", "Scav Detection"],
       platforms: {
         pc: true,
         console: false,
@@ -101,7 +100,7 @@ export default function GamesSupportedPage() {
       name: "Rainbow Six Siege",
       image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
-      features: ["Aimbot", "ESP", "Recoil Control", "Gadget ESP", "Operator Detection", "Defuser Timer"],
+      features: ["Magic Bullet", "ESP", "Recoil Control", "Gadget ESP", "Operator Detection", "Defuser Timer"],
       platforms: {
         pc: true,
         console: true,
@@ -112,7 +111,6 @@ export default function GamesSupportedPage() {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen bg-black text-white pt-32 pb-20 relative overflow-hidden">
         {/* Background effects */}
         <div className="absolute inset-0 z-0">
@@ -146,7 +144,7 @@ export default function GamesSupportedPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              Calamari supports a wide range of popular games with specialized features for each title
+              Explore our collection of premium gaming enhancement tools
             </motion.p>
           </motion.div>
 
@@ -164,7 +162,7 @@ export default function GamesSupportedPage() {
               >
                 <div className="p-6">
                   <div className="flex items-center mb-4">
-                    <div className="relative w-16 h-16 mr-4 rounded-lg overflow-hidden bg-gray-800 flex items-center justify-center">
+                    <div className="relative w-16 h-16 mr-4 rounded-lg overflow-hidden bg-gradient-to-br from-red-900/30 to-black flex items-center justify-center border border-red-500/20">
                       <Image
                         src={game.image || "/placeholder.svg"}
                         alt={game.name}
@@ -257,7 +255,7 @@ export default function GamesSupportedPage() {
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   viewport={{ once: true, amount: 0.1 }}
                 >
-                  <div className="relative w-16 h-16 mx-auto mb-3 rounded-lg overflow-hidden bg-gray-800 flex items-center justify-center">
+                  <div className="relative w-16 h-16 mx-auto mb-3 rounded-lg overflow-hidden bg-gradient-to-br from-yellow-900/30 to-black flex items-center justify-center border border-yellow-500/20">
                     <Image
                       src="/images/calamari-diagonal.png"
                       alt={game}
