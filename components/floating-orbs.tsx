@@ -1,32 +1,43 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useEffect, useState } from "react"
 
 export default function FloatingOrbs() {
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
+
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      {[...Array(8)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-32 h-32 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-500/20 blur-xl"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            x: [0, 100, -100, 0],
-            y: [0, -100, 100, 0],
-            scale: [1, 1.2, 0.8, 1],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 20 + Math.random() * 10,
-            repeat: Number.POSITIVE_INFINITY,
-            ease: "linear",
-            delay: Math.random() * 5,
-          }}
-        />
-      ))}
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+      {[...Array(20)].map((_, i) => {
+        const size = Math.random() * 100 + 50
+        return (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-gradient-to-br from-red-500/5 to-orange-500/5"
+            style={{
+              width: size,
+              height: size,
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              x: [0, Math.random() * 100 - 50, 0],
+              y: [0, Math.random() * 100 - 50, 0],
+            }}
+            transition={{
+              duration: Math.random() * 20 + 10,
+              repeat: Number.POSITIVE_INFINITY,
+              ease: "easeInOut",
+            }}
+          />
+        )
+      })}
     </div>
   )
 }

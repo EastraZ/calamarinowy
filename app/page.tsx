@@ -9,27 +9,27 @@ import Link from "next/link"
 import { Play, Rocket, Sparkles, ChevronDown, X, Check, ArrowRight } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
+// Import simple components directly
+import FloatingOrbs from "@/components/floating-orbs"
+
 // Dynamically import components that might use browser APIs
 const ScientistModelViewer = dynamic(() => import("@/components/scientist-model"), {
   ssr: false,
   loading: () => (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="animate-pulse text-gray-400">Loading 3D Model...</div>
+      <div className="animate-pulse text-red-400">Loading visualization...</div>
     </div>
   ),
 })
 
-const SecurityShowcase = dynamic(() => import("@/components/security-showcase"), { ssr: false })
-const GameGallery = dynamic(() => import("@/components/game-gallery"), { ssr: false })
-const FeatureComparison = dynamic(() => import("@/components/feature-comparison"), { ssr: false })
-const LiveUserCounter = dynamic(() => import("@/components/live-user-counter"), { ssr: false })
-const SecurityFeatures = dynamic(() => import("@/components/security-features"), { ssr: false })
-const GameCompatibility = dynamic(() => import("@/components/game-compatibility"), { ssr: false })
-const TechnologyShowcase = dynamic(() => import("@/components/technology-showcase"), { ssr: false })
-const FloatingOrbs = dynamic(() => import("@/components/floating-orbs"), { ssr: false })
-const AdvancedCheatEngine = dynamic(() => import("@/components/advanced-cheat-engine"), { ssr: false })
-const LiveServerStatus = dynamic(() => import("@/components/live-server-status"), { ssr: false })
-const GameStatus = dynamic(() => import("@/components/game-status"), { ssr: false })
+// Placeholder component for complex components
+function ComponentPlaceholder({ title }: { title: string }) {
+  return (
+    <div className="w-full py-20 bg-black/30 rounded-lg flex items-center justify-center">
+      <div className="text-gray-400">{title}</div>
+    </div>
+  )
+}
 
 export default function Home() {
   const [showVideo, setShowVideo] = useState(false)
@@ -100,29 +100,31 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#0f0f0f] via-[#1a0a0a] to-[#0a0f1a] text-white overflow-hidden relative">
       {/* Matrix Rain Background Effect */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        {[...Array(30)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute text-green-400/20 font-mono text-xs"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `-10px`,
-            }}
-            animate={{
-              y: ["0vh", "110vh"],
-            }}
-            transition={{
-              duration: Math.random() * 3 + 2,
-              repeat: Number.POSITIVE_INFINITY,
-              ease: "linear",
-              delay: Math.random() * 5,
-            }}
-          >
-            {Math.random() > 0.5 ? "CALAMARI" : "01010101"}
-          </motion.div>
-        ))}
-      </div>
+      {isMounted && (
+        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+          {[...Array(30)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute text-green-400/20 font-mono text-xs"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `-10px`,
+              }}
+              animate={{
+                y: ["0vh", "110vh"],
+              }}
+              transition={{
+                duration: Math.random() * 3 + 2,
+                repeat: Number.POSITIVE_INFINITY,
+                ease: "linear",
+                delay: Math.random() * 5,
+              }}
+            >
+              {Math.random() > 0.5 ? "CALAMARI" : "01010101"}
+            </motion.div>
+          ))}
+        </div>
+      )}
 
       {/* Floating Orbs Background */}
       {isMounted && <FloatingOrbs />}
@@ -257,10 +259,43 @@ export default function Home() {
       </motion.div>
 
       {/* Live User Counter */}
-      {isMounted && <LiveUserCounter />}
+      {isMounted && (
+        <div className="container mx-auto px-4 py-8">
+          <div className="bg-black/30 backdrop-blur-sm border border-red-500/20 rounded-lg p-4 flex items-center justify-center">
+            <div className="flex items-center">
+              <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse mr-2"></div>
+              <div className="text-white font-medium">
+                <span className="text-green-400">1,543</span> users online now
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Game Status */}
-      <div id="game-status">{isMounted && <GameStatus />}</div>
+      <div id="game-status" className="container mx-auto px-4 py-8">
+        <div className="bg-black/30 backdrop-blur-sm border border-gray-800 rounded-lg p-6">
+          <h2 className="text-2xl font-bold mb-4 text-center">Game Status</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              { game: "Rust", status: "Undetected", lastUpdate: "2 hours ago", color: "green" },
+              { game: "Fortnite", status: "Undetected", lastUpdate: "4 hours ago", color: "green" },
+              { game: "Apex Legends", status: "Undetected", lastUpdate: "1 day ago", color: "green" },
+            ].map((item, index) => (
+              <div key={index} className="bg-black/50 border border-gray-800 rounded-lg p-4">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="font-bold">{item.game}</div>
+                  <div className={`text-${item.color}-500 text-sm flex items-center`}>
+                    <div className={`w-2 h-2 bg-${item.color}-500 rounded-full mr-1 animate-pulse`}></div>
+                    {item.status}
+                  </div>
+                </div>
+                <div className="text-gray-400 text-xs">Updated {item.lastUpdate}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
       {/* Products Section */}
       <motion.section
@@ -364,29 +399,42 @@ export default function Home() {
         </motion.div>
       </motion.section>
 
-      {/* Advanced Cheat Engine - UNIQUE */}
-      {isMounted && <AdvancedCheatEngine />}
+      {/* Placeholder for complex components */}
+      {isMounted && (
+        <>
+          <div className="container mx-auto px-4 py-8">
+            <ComponentPlaceholder title="Advanced Cheat Engine" />
+          </div>
 
-      {/* Security Showcase - UNIQUE */}
-      {isMounted && <SecurityShowcase />}
+          <div className="container mx-auto px-4 py-8">
+            <ComponentPlaceholder title="Security Showcase" />
+          </div>
 
-      {/* Live Server Status - UNIQUE */}
-      {isMounted && <LiveServerStatus />}
+          <div className="container mx-auto px-4 py-8">
+            <ComponentPlaceholder title="Live Server Status" />
+          </div>
 
-      {/* Technology Showcase - UNIQUE */}
-      {isMounted && <TechnologyShowcase />}
+          <div className="container mx-auto px-4 py-8">
+            <ComponentPlaceholder title="Technology Showcase" />
+          </div>
 
-      {/* Game Gallery - UNIQUE */}
-      {isMounted && <GameGallery />}
+          <div className="container mx-auto px-4 py-8">
+            <ComponentPlaceholder title="Game Gallery" />
+          </div>
 
-      {/* Security Features - UNIQUE */}
-      {isMounted && <SecurityFeatures />}
+          <div className="container mx-auto px-4 py-8">
+            <ComponentPlaceholder title="Security Features" />
+          </div>
 
-      {/* Feature Comparison - UNIQUE */}
-      {isMounted && <FeatureComparison />}
+          <div className="container mx-auto px-4 py-8">
+            <ComponentPlaceholder title="Feature Comparison" />
+          </div>
 
-      {/* Game Compatibility - UNIQUE */}
-      {isMounted && <GameCompatibility />}
+          <div className="container mx-auto px-4 py-8">
+            <ComponentPlaceholder title="Game Compatibility" />
+          </div>
+        </>
+      )}
 
       {/* Enhanced Testimonials Section - UNIQUE */}
       <motion.section
