@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { SettingsIcon, Save, User, Mail, AtSign, ImageIcon, Trash2, Upload } from "lucide-react"
@@ -34,19 +36,19 @@ export default function SettingsPage() {
     return null
   }
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({ ...prev, [name]: value }))
     setIsEditing(true)
   }
 
-  const handleAvatarUpload = (e) => {
+  const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     // In a real implementation, this would upload to a storage service
-    const file = e.target.files[0]
+    const file = e.target.files?.[0]
     if (file) {
       const reader = new FileReader()
       reader.onloadend = () => {
-        setFormData((prev) => ({ ...prev, avatar: reader.result }))
+        setFormData((prev) => ({ ...prev, avatar: reader.result as string }))
         setIsEditing(true)
       }
       reader.readAsDataURL(file)

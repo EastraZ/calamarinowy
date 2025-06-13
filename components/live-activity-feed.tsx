@@ -7,53 +7,42 @@ export default function LiveActivityFeed() {
   const [activities, setActivities] = useState<any[]>([])
 
   const activityTypes = [
-    { type: "purchase", icon: "💳", color: "text-green-400" },
-    { type: "login", icon: "🎮", color: "text-blue-400" },
-    { type: "achievement", icon: "🏆", color: "text-yellow-400" },
-    { type: "update", icon: "🔄", color: "text-purple-400" },
+    { type: "aimbot", icon: "🎯", color: "text-green-400" },
+    { type: "esp", icon: "👁️", color: "text-blue-400" },
+    { type: "hwid", icon: "💻", color: "text-yellow-400" },
+    { type: "stability", icon: "⚙️", color: "text-purple-400" },
   ]
 
-  const usernames = [
-    "ProGamer2024",
-    "EliteSniper",
-    "RustLord",
-    "FortniteKing",
-    "ApexPredator",
-    "ShadowHunter",
-    "NightCrawler",
-    "DeathDealer",
-    "SkullCrusher",
-    "VoidWalker",
-  ]
+  const qaTeams = ["QA_Team_Alpha", "QA_Team_Beta", "QA_Team_Gamma", "QA_Team_Delta", "QA_Team_Epsilon"]
 
-  const games = ["Rust", "Fortnite", "Apex Legends"]
+  const testStatuses = ["PASSED", "TESTING", "FAILED"]
 
   const generateActivity = () => {
     const activity = activityTypes[Math.floor(Math.random() * activityTypes.length)]
-    const username = usernames[Math.floor(Math.random() * usernames.length)]
-    const game = games[Math.floor(Math.random() * games.length)]
+    const qaTeam = qaTeams[Math.floor(Math.random() * qaTeams.length)]
+    const status = testStatuses[Math.floor(Math.random() * testStatuses.length)]
 
     let message = ""
     switch (activity.type) {
-      case "purchase":
-        message = `${username} purchased Calamari Premium`
+      case "aimbot":
+        message = `${qaTeam} completed aimbot accuracy test`
         break
-      case "login":
-        message = `${username} is dominating ${game}`
+      case "esp":
+        message = `${qaTeam} verified ESP detection bypass`
         break
-      case "achievement":
-        message = `${username} achieved 20+ kills in ${game}`
+      case "hwid":
+        message = `${qaTeam} tested HWID spoofer stability`
         break
-      case "update":
-        message = `${username} updated to v4.0.1 ULTRA`
+      case "stability":
+        message = `${qaTeam} ran stability tests`
         break
     }
 
     return {
       id: Date.now() + Math.random(),
       ...activity,
-      username,
-      game,
+      qaTeam,
+      status,
       message,
       timestamp: new Date().toLocaleTimeString(),
     }
@@ -83,9 +72,11 @@ export default function LiveActivityFeed() {
           transition={{ duration: 0.6 }}
         >
           <h2 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-            Live Activity Feed
+            Testing Feed
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">See what our community is doing right now</p>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Live testing results from our quality assurance team
+          </p>
         </motion.div>
 
         <div className="bg-black/60 backdrop-blur-sm border border-white/20 rounded-3xl p-8">
@@ -112,7 +103,7 @@ export default function LiveActivityFeed() {
                   </div>
                 </div>
                 <div className={`px-3 py-1 rounded-full bg-white/10 ${activity.color} text-sm font-bold`}>
-                  {activity.game}
+                  {activity.status}
                 </div>
               </motion.div>
             ))}

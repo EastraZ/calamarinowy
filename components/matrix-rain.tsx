@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react"
 
-export default function MatrixRain() {
+const MatrixRain = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
@@ -15,39 +15,47 @@ export default function MatrixRain() {
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
 
-    const matrix = "CALAMARI01"
-    const matrixArray = matrix.split("")
+    const fontSize = 14
+    const columns = Math.floor(canvas.width / fontSize)
 
-    const fontSize = 10
-    const columns = canvas.width / fontSize
+    // Array to track the y position of each column
+    const drops: number[] = Array(columns).fill(1)
 
-    const drops: number[] = []
-    for (let x = 0; x < columns; x++) {
-      drops[x] = 1
-    }
+    // Characters to display
+    const chars =
+      "01アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン"
 
-    function draw() {
-      if (!ctx || !canvas) return
-
-      ctx.fillStyle = "rgba(0, 0, 0, 0.04)"
+    const draw = () => {
+      // Semi-transparent black background to create fade effect
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)"
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      ctx.fillStyle = "#0F0"
-      ctx.font = fontSize + "px arial"
+      // Green text
+      ctx.fillStyle = "#0f0"
+      ctx.font = `${fontSize}px monospace`
 
+      // For each column
       for (let i = 0; i < drops.length; i++) {
-        const text = matrixArray[Math.floor(Math.random() * matrixArray.length)]
+        // Get a random character
+        const text = chars[Math.floor(Math.random() * chars.length)]
+
+        // Draw the character
         ctx.fillText(text, i * fontSize, drops[i] * fontSize)
 
+        // Randomly reset some drops to the top
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0
         }
+
+        // Move the drop down
         drops[i]++
       }
     }
 
-    const interval = setInterval(draw, 35)
+    // Animation loop
+    const interval = setInterval(draw, 33)
 
+    // Handle window resize
     const handleResize = () => {
       canvas.width = window.innerWidth
       canvas.height = window.innerHeight
@@ -61,11 +69,7 @@ export default function MatrixRain() {
     }
   }, [])
 
-  return (
-    <canvas
-      ref={canvasRef}
-      className="fixed inset-0 pointer-events-none opacity-20 z-0"
-      style={{ background: "transparent" }}
-    />
-  )
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 }
+
+export default MatrixRain

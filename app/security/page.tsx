@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Shield, Lock, Eye, EyeOff, Smartphone, Key, AlertTriangle, CheckCircle, XCircle } from "lucide-react"
@@ -38,8 +40,15 @@ export default function SecurityPage() {
     return null
   }
 
-  // Mock login history
-  const loginHistory = [
+  // Fix the loginHistory type
+  const loginHistory: {
+    id: number
+    date: string
+    device: string
+    location: string
+    ip: string
+    status: string
+  }[] = [
     {
       id: 1,
       date: "2024-06-10 14:32:45",
@@ -66,7 +75,8 @@ export default function SecurityPage() {
     },
   ]
 
-  const handlePasswordChange = (e) => {
+  // Add proper type for the event parameter
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setPasswordData((prev) => ({ ...prev, [name]: value }))
   }

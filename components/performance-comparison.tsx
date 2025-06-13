@@ -1,162 +1,114 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { ArrowRight, Zap, Shield, Cpu } from "lucide-react"
 
 export default function PerformanceComparison() {
-  const metrics = [
+  const comparisonData = [
     {
-      name: "Performance",
-      otherProviders: "0%",
-      calamari: "60%",
-      advantage: "60% Faster",
-      icon: Zap,
-      color: "from-blue-500 to-cyan-500",
+      metric: "Aimbot Accuracy",
+      calamari: "99.8%",
+      competitors: "85-90%",
+      advantage: "More natural aim patterns with AI learning",
     },
     {
-      name: "Security",
-      otherProviders: "Medium",
-      calamari: "Maximum",
-      advantage: "Enterprise-grade",
-      icon: Shield,
-      color: "from-green-500 to-emerald-500",
+      metric: "Detection Risk",
+      calamari: "Virtually Zero",
+      competitors: "Medium to High",
+      advantage: "Proprietary kernel-level protection",
     },
     {
-      name: "CPU Usage",
-      otherProviders: "High",
-      calamari: "Low",
-      advantage: "50% Less",
-      icon: Cpu,
-      color: "from-purple-500 to-violet-500",
+      metric: "Performance Impact",
+      calamari: "< 1% FPS Loss",
+      competitors: "5-15% FPS Loss",
+      advantage: "Optimized code with minimal system footprint",
+    },
+    {
+      metric: "Update Frequency",
+      calamari: "24-48 Hours",
+      competitors: "1-2 Weeks",
+      advantage: "Dedicated development team for rapid updates",
+    },
+    {
+      metric: "Support Response",
+      calamari: "< 1 Hour",
+      competitors: "24-48 Hours",
+      advantage: "24/7 dedicated support team via Discord",
     },
   ]
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 },
+    },
+  }
+
   return (
     <motion.section
-      className="py-20 relative z-10 overflow-hidden"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      viewport={{ once: true }}
+      className="container mx-auto px-4 py-20 relative z-20"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={containerVariants}
     >
-      {/* Background elements */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900 to-black -z-10"></div>
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,rgba(255,0,0,0.1),transparent_40%)]"></div>
-        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_80%,rgba(255,0,0,0.1),transparent_40%)]"></div>
-      </div>
+      <motion.div className="text-center mb-16" variants={itemVariants}>
+        <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
+          Why We're Better
+        </h2>
+        <p className="text-gray-300 max-w-2xl mx-auto text-lg md:text-xl">
+          See how Calamari outperforms every competitor in the market
+        </p>
+      </motion.div>
 
-      <div className="container mx-auto px-4">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
+      <motion.div
+        className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-3xl p-6 md:p-8 overflow-x-auto"
+        variants={itemVariants}
+      >
+        <table className="w-full min-w-[768px]">
+          <thead>
+            <tr className="border-b border-gray-700">
+              <th className="py-4 px-4 text-left text-gray-300">Metric</th>
+              <th className="py-4 px-4 text-center text-red-400 font-bold">Calamari</th>
+              <th className="py-4 px-4 text-center text-gray-400">Competitors</th>
+              <th className="py-4 px-4 text-left text-gray-300">Our Advantage</th>
+            </tr>
+          </thead>
+          <tbody>
+            {comparisonData.map((item, index) => (
+              <tr key={index} className="border-b border-gray-800 hover:bg-white/5 transition-colors">
+                <td className="py-4 px-4 text-left font-medium text-white">{item.metric}</td>
+                <td className="py-4 px-4 text-center text-green-400 font-bold">{item.calamari}</td>
+                <td className="py-4 px-4 text-center text-yellow-500">{item.competitors}</td>
+                <td className="py-4 px-4 text-left text-gray-300">{item.advantage}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </motion.div>
+
+      <motion.div className="mt-12 text-center" variants={itemVariants}>
+        <motion.button
+          onClick={() => window.open("https://calamari.mysellauth.com/#products", "_blank")}
+          className="px-8 py-4 bg-gradient-to-r from-red-600 to-orange-600 rounded-full font-bold text-lg hover:from-red-500 hover:to-orange-500 transition-all duration-300"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-            Performance Advantage
-          </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            See how Calamari outperforms the competition in every metric that matters
-          </p>
-        </motion.div>
-
-        <div className="max-w-5xl mx-auto">
-          {/* Metrics comparison */}
-          <motion.div
-            className="bg-black/60 backdrop-blur-sm border border-red-500/20 rounded-2xl overflow-hidden shadow-2xl shadow-red-900/10"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            {/* Header */}
-            <div className="grid grid-cols-4 gap-4 p-6 bg-gradient-to-r from-red-900/20 to-black border-b border-red-500/20">
-              <div className="text-white font-bold">Metric</div>
-              <div className="text-center text-gray-400 font-medium">Other Providers</div>
-              <div className="text-center text-white font-bold">Calamari</div>
-              <div className="text-center text-gray-400 font-medium">Advantage</div>
-            </div>
-
-            {/* Metrics */}
-            <div className="divide-y divide-red-500/10">
-              {metrics.map((metric, index) => (
-                <motion.div
-                  key={index}
-                  className="grid grid-cols-4 gap-4 p-6 hover:bg-red-500/5 transition-colors"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <div className="flex items-center space-x-3">
-                    <div
-                      className={`w-10 h-10 rounded-lg bg-gradient-to-br ${metric.color} flex items-center justify-center shadow-lg`}
-                    >
-                      <metric.icon className="h-5 w-5 text-white" />
-                    </div>
-                    <span className="text-gray-200 font-medium">{metric.name}</span>
-                  </div>
-
-                  <div className="flex items-center justify-center">
-                    <motion.div
-                      className="px-4 py-2 bg-gray-800/50 rounded-lg text-gray-400 border border-gray-700/50"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {metric.otherProviders}
-                    </motion.div>
-                  </div>
-
-                  <div className="flex items-center justify-center">
-                    <motion.div
-                      className="px-4 py-2 bg-gradient-to-r from-red-900/30 to-red-700/30 rounded-lg text-white font-medium border border-red-500/30"
-                      whileHover={{ scale: 1.05 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {metric.calamari}
-                    </motion.div>
-                  </div>
-
-                  <div className="flex items-center justify-center">
-                    <motion.div
-                      className="flex items-center space-x-1 text-green-400"
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                    >
-                      <span>{metric.advantage}</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </motion.div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Summary */}
-            <div className="p-6 bg-gradient-to-r from-red-900/20 to-black border-t border-red-500/20">
-              <div className="flex flex-col md:flex-row items-center justify-between">
-                <div className="text-gray-300 mb-4 md:mb-0">
-                  <span className="text-white font-bold">Calamari</span> outperforms competitors in all key metrics
-                </div>
-                <motion.button
-                  className="px-6 py-3 bg-gradient-to-r from-red-600 to-red-500 rounded-lg font-bold text-white hover:from-red-500 hover:to-red-400 transition-all duration-300 shadow-lg shadow-red-900/20"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => {
-                    const plansSection = document.getElementById("subscription-plans")
-                    if (plansSection) {
-                      plansSection.scrollIntoView({ behavior: "smooth" })
-                    }
-                  }}
-                >
-                  Experience the Difference
-                </motion.button>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
+          Experience the Difference
+        </motion.button>
+      </motion.div>
     </motion.section>
   )
 }

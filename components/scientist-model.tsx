@@ -1,9 +1,9 @@
 "use client"
 
-import { useRef, useState, useEffect, Suspense } from "react"
+import { useRef, useState, useEffect } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { OrbitControls, Environment, Html, useGLTF, PerspectiveCamera } from "@react-three/drei"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 
 function ScientistModel() {
   const meshRef = useRef<any>(null)
@@ -108,7 +108,44 @@ function ScientistModel() {
   )
 }
 
+// Loading component
+function LoadingIndicator() {
+  return (
+    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 backdrop-blur-sm">
+      <div className="w-32 h-32 relative">
+        <motion.div
+          className="absolute inset-0 border-4 border-red-500/30 rounded-full"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        />
+        <motion.div
+          className="absolute inset-2 border-4 border-t-red-500 border-transparent rounded-full"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+        />
+      </div>
+      <div className="mt-4 text-white font-medium">Loading Model...</div>
+    </div>
+  )
+}
+
 export default function ScientistModelViewer() {
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+    // Simulate loading time
+    const timer = setTimeout(() => {
+      setIsLoaded(true)
+    }, 1000)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (!isMounted) {
+    return <div className="w-full h-full bg-black/20 rounded-lg"></div>
+  }
+
   return (
     <div className="w-full h-full relative">
       <Canvas shadows className="cursor-pointer w-full h-full" style={{ background: "transparent" }}>
@@ -122,9 +159,13 @@ export default function ScientistModelViewer() {
 
         <Environment preset="city" />
 
-        <Suspense fallback={null}>
-          <ScientistModel />
-        </Suspense>
+        <AnimatePresence>
+          {isLoaded && (
+            <motion.group initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+              <ScientistModel />
+            </motion.group>
+          )}
+        </AnimatePresence>
 
         <OrbitControls
           enableZoom={false}
@@ -137,6 +178,8 @@ export default function ScientistModelViewer() {
           autoRotateSpeed={0.5}
         />
       </Canvas>
+
+      {!isLoaded && <LoadingIndicator />}
 
       {/* Enhanced floating particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">

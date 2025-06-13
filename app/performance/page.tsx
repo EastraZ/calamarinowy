@@ -13,7 +13,32 @@ export default function PerformancePage() {
   const { user, isAuthenticated, updateUserProfile } = useAuth()
   const router = useRouter()
 
-  const [settings, setSettings] = useState({
+  // Add proper type for the settings state
+  interface PerformanceSettings {
+    graphicsQuality: number
+    renderDistance: number
+    antiAliasing: boolean
+    shadows: boolean
+    textureQuality: number
+    effectsQuality: number
+    fpsLimit: number
+    priorityMode: string
+    vsync: boolean
+    fullscreen: boolean
+    aimAssist: number
+    recoilControl: number
+    espDistance: number
+    wallhackOpacity: number
+    hwidSpoof: boolean
+    streamProof: boolean
+    antiScreenshot: boolean
+    memoryOptimization: boolean
+    cpuPriority: string
+    networkOptimization: boolean
+    diskCache: boolean
+  }
+
+  const [settings, setSettings] = useState<PerformanceSettings>({
     // Graphics Settings
     graphicsQuality: 75,
     renderDistance: 60,

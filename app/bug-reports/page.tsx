@@ -1,16 +1,44 @@
 "use client"
 
 import type React from "react"
-
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { Clock, User, FileText, Camera, Send } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import MatrixRain from "@/components/matrix-rain"
-import { useState } from "react"
+
+interface BugReportFormData {
+  title: string
+  description: string
+  steps: string
+  expected: string
+  actual: string
+  severity: string
+  category: string
+  game: string
+  version: string
+  os: string
+  email: string
+}
+
+interface RecentBug {
+  id: string
+  title: string
+  status: string
+  severity: string
+  date: string
+  reporter: string
+}
+
+interface BugReportTip {
+  icon: React.ElementType
+  title: string
+  description: string
+}
 
 export default function BugReportsPage() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<BugReportFormData>({
     title: "",
     description: "",
     steps: "",
@@ -74,7 +102,7 @@ export default function BugReportsPage() {
     { value: "other", label: "Other" },
   ]
 
-  const recentBugs = [
+  const recentBugs: RecentBug[] = [
     {
       id: "#BUG-2024-001",
       title: "Aimbot not working in Rust after update",
@@ -109,7 +137,7 @@ export default function BugReportsPage() {
     },
   ]
 
-  const bugReportTips = [
+  const bugReportTips: BugReportTip[] = [
     {
       icon: FileText,
       title: "Be Specific",

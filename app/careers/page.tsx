@@ -1,18 +1,45 @@
 "use client"
 
 import type React from "react"
-
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { Briefcase, MapPin, Clock, DollarSign, Users, Zap, Send } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import MatrixRain from "@/components/matrix-rain"
-import { useState } from "react"
+
+interface JobPosition {
+  title: string
+  department: string
+  location: string
+  type: string
+  salary: string
+  description: string
+  requirements: string[]
+  responsibilities: string[]
+  benefits: string[]
+}
+
+interface CompanyBenefit {
+  icon: React.ElementType
+  title: string
+  description: string
+  color: string
+}
+
+interface ApplicationFormData {
+  name: string
+  email: string
+  position: string
+  resume: File | null
+  coverLetter: string
+  portfolio: string
+}
 
 export default function CareersPage() {
   const [selectedJob, setSelectedJob] = useState<number | null>(null)
 
-  const openPositions = [
+  const openPositions: JobPosition[] = [
     {
       title: "Senior Security Engineer",
       department: "Engineering",
@@ -161,7 +188,7 @@ export default function CareersPage() {
     },
   ]
 
-  const companyBenefits = [
+  const companyBenefits: CompanyBenefit[] = [
     {
       icon: DollarSign,
       title: "Competitive Compensation",
@@ -188,16 +215,14 @@ export default function CareersPage() {
     },
   ]
 
-  const applicationForm = {
+  const [formData, setFormData] = useState<ApplicationFormData>({
     name: "",
     email: "",
     position: "",
     resume: null,
     coverLetter: "",
     portfolio: "",
-  }
-
-  const [formData, setFormData] = useState(applicationForm)
+  })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -209,6 +234,22 @@ export default function CareersPage() {
       ...formData,
       [e.target.name]: e.target.value,
     })
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setFormData({
+        ...formData,
+        resume: e.target.files[0],
+      })
+    }
+  }
+
+  const scrollToApplicationForm = () => {
+    const applicationSection = document.getElementById("application-form")
+    if (applicationSection) {
+      applicationSection.scrollIntoView({ behavior: "smooth" })
+    }
   }
 
   return (
@@ -402,11 +443,8 @@ export default function CareersPage() {
                         <div className="mt-6 pt-6 border-t border-red-500/20">
                           <motion.button
                             onClick={() => {
-                              const applicationSection = document.getElementById("application-form")
-                              if (applicationSection) {
-                                applicationSection.scrollIntoView({ behavior: "smooth" })
-                                setFormData({ ...formData, position: job.title })
-                              }
+                              setFormData({ ...formData, position: job.title })
+                              scrollToApplicationForm()
                             }}
                             className="w-full flex items-center justify-center px-8 py-4 bg-gradient-to-r from-red-600 to-red-500 rounded-lg font-bold text-white hover:from-red-500 hover:to-red-400 transition-all duration-300 shadow-lg shadow-red-900/20"
                             whileHover={{ scale: 1.02 }}
@@ -498,6 +536,21 @@ export default function CareersPage() {
                         </option>
                       ))}
                     </select>
+                  </div>
+
+                  <div>
+                    <label htmlFor="resume" className="block text-sm font-medium text-gray-300 mb-2">
+                      Resume/CV
+                    </label>
+                    <input
+                      type="file"
+                      id="resume"
+                      name="resume"
+                      onChange={handleFileChange}
+                      className="w-full px-4 py-3 bg-black/50 border border-red-500/20 rounded-lg text-white focus:outline-none focus:border-red-500/50 transition-colors"
+                      accept=".pdf,.doc,.docx"
+                    />
+                    <p className="text-xs text-gray-400 mt-1">PDF, DOC, or DOCX files only (Max 5MB)</p>
                   </div>
 
                   <div>

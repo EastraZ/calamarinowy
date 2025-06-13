@@ -1,16 +1,43 @@
 "use client"
 
 import type React from "react"
-
+import { useState } from "react"
 import { motion } from "framer-motion"
 import { Lightbulb, ThumbsUp, MessageSquare, Send, Star, TrendingUp } from "lucide-react"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
 import MatrixRain from "@/components/matrix-rain"
-import { useState } from "react"
+
+interface FeatureRequestFormData {
+  title: string
+  description: string
+  justification: string
+  category: string
+  priority: string
+  game: string
+  email: string
+}
+
+interface PopularRequest {
+  title: string
+  description: string
+  category: string
+  votes: number
+  comments: number
+  status: string
+  game: string
+  date: string
+}
+
+interface ImplementedFeature {
+  title: string
+  description: string
+  implementedDate: string
+  originalVotes: number
+}
 
 export default function FeatureRequestsPage() {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FeatureRequestFormData>({
     title: "",
     description: "",
     justification: "",
@@ -45,25 +72,25 @@ export default function FeatureRequestsPage() {
   }
 
   const categories = [
-    { value: "general", label: "General Feature" },
+    { value: "general", label: "General Enhancement" },
     { value: "ui", label: "User Interface" },
     { value: "performance", label: "Performance" },
-    { value: "security", label: "Security" },
+    { value: "features", label: "New Features" },
     { value: "customization", label: "Customization" },
     { value: "automation", label: "Automation" },
     { value: "integration", label: "Integration" },
-    { value: "analytics", label: "Analytics" },
+    { value: "security", label: "Security" },
   ]
 
   const priorities = [
-    { value: "low", label: "Low", color: "text-green-400" },
-    { value: "medium", label: "Medium", color: "text-yellow-400" },
-    { value: "high", label: "High", color: "text-orange-400" },
-    { value: "critical", label: "Critical", color: "text-red-400" },
+    { value: "low", label: "Low", description: "Nice to have" },
+    { value: "medium", label: "Medium", description: "Would improve experience" },
+    { value: "high", label: "High", description: "Important for workflow" },
+    { value: "critical", label: "Critical", description: "Essential feature" },
   ]
 
   const games = [
-    { value: "", label: "All Games" },
+    { value: "", label: "All Games / General" },
     { value: "rust", label: "Rust" },
     { value: "fortnite", label: "Fortnite" },
     { value: "apex", label: "Apex Legends" },
@@ -72,89 +99,95 @@ export default function FeatureRequestsPage() {
     { value: "other", label: "Other" },
   ]
 
-  const popularRequests = [
+  const popularRequests: PopularRequest[] = [
     {
       title: "Advanced Aimbot Smoothing",
-      description: "More granular control over aimbot smoothing with custom curves and acceleration patterns.",
-      category: "Performance",
+      description: "More granular control over aimbot smoothing with custom curves and acceleration settings",
+      category: "Features",
       votes: 247,
-      comments: 18,
+      comments: 32,
       status: "Under Review",
       game: "All Games",
       date: "2024-01-10",
     },
     {
       title: "Custom ESP Colors",
-      description: "Allow users to customize ESP colors for different player types and objects.",
+      description: "Allow users to customize ESP colors for different player types and distances",
       category: "Customization",
       votes: 189,
-      comments: 12,
-      status: "Planned",
+      comments: 28,
+      status: "In Development",
       game: "Rust",
       date: "2024-01-08",
     },
     {
-      title: "Auto-Update System",
-      description: "Automatic updates for the cheat without requiring manual downloads.",
+      title: "Profile System",
+      description: "Save and switch between different configuration profiles for different games",
       category: "General",
       votes: 156,
-      comments: 24,
-      status: "In Development",
+      comments: 19,
+      status: "Planned",
       game: "All Games",
       date: "2024-01-05",
     },
     {
-      title: "Mobile App Companion",
-      description: "Mobile app to manage settings and view statistics remotely.",
+      title: "Discord Rich Presence",
+      description: "Show current game and Calamari status in Discord rich presence",
       category: "Integration",
       votes: 134,
-      comments: 31,
+      comments: 15,
       status: "Under Review",
       game: "All Games",
       date: "2024-01-03",
     },
     {
-      title: "Advanced Radar System",
-      description: "Enhanced radar with distance indicators and player information.",
-      category: "UI",
+      title: "Radar Overlay",
+      description: "Minimap radar showing enemy positions and important locations",
+      category: "Features",
       votes: 98,
-      comments: 15,
+      comments: 22,
       status: "Planned",
-      game: "Fortnite",
+      game: "Valorant",
       date: "2023-12-28",
     },
   ]
 
-  const recentlyImplemented = [
+  const implementedFeatures: ImplementedFeature[] = [
     {
       title: "Hotkey Customization",
-      description: "Full customization of all hotkeys and key bindings.",
-      implementedDate: "2024-01-15",
+      description: "Full customization of all hotkeys and keybindings",
+      implementedDate: "2024-01-01",
       originalVotes: 312,
     },
     {
-      title: "Performance Metrics Dashboard",
-      description: "Real-time performance monitoring and statistics.",
-      implementedDate: "2024-01-12",
+      title: "Auto-Update System",
+      description: "Automatic updates with rollback capability",
+      implementedDate: "2023-12-15",
       originalVotes: 278,
     },
     {
       title: "Multi-Monitor Support",
-      description: "Better support for multi-monitor setups and configurations.",
-      implementedDate: "2024-01-08",
-      originalVotes: 156,
+      description: "Proper support for multi-monitor setups",
+      implementedDate: "2023-12-01",
+      originalVotes: 203,
+    },
+    {
+      title: "Stream-Safe Mode",
+      description: "Hide overlays and sensitive information while streaming",
+      implementedDate: "2023-11-20",
+      originalVotes: 189,
     },
   ]
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "Planned":
-        return "bg-blue-500/20 text-blue-400"
       case "In Development":
-        return "bg-green-500/20 text-green-400"
+        return "bg-blue-500/20 text-blue-400"
       case "Under Review":
         return "bg-yellow-500/20 text-yellow-400"
-      case "Implemented":
+      case "Planned":
+        return "bg-green-500/20 text-green-400"
+      case "Completed":
         return "bg-purple-500/20 text-purple-400"
       default:
         return "bg-gray-500/20 text-gray-400"
@@ -197,55 +230,9 @@ export default function FeatureRequestsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              Shape the future of Calamari by suggesting new features and voting on community ideas.
+              Shape the future of Calamari by suggesting new features and improvements. Your ideas drive our development
+              roadmap.
             </motion.p>
-          </motion.div>
-
-          {/* Recently Implemented Features */}
-          <motion.div
-            className="mb-20"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                Recently Implemented
-              </h2>
-              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                Community-requested features that have been added to Calamari
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {recentlyImplemented.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  className="bg-black/50 backdrop-blur-sm border border-green-500/20 rounded-xl overflow-hidden shadow-lg p-6"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  viewport={{ once: true, amount: 0.2 }}
-                  whileHover={{ y: -3, scale: 1.02 }}
-                >
-                  <div className="flex items-center mb-4">
-                    <div className="w-10 h-10 bg-gradient-to-br from-green-600 to-green-500 rounded-full flex items-center justify-center mr-3">
-                      <Star className="h-5 w-5 text-white" />
-                    </div>
-                    <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded-full text-xs font-medium">
-                      Implemented
-                    </span>
-                  </div>
-                  <h3 className="text-lg font-bold text-white mb-2">{feature.title}</h3>
-                  <p className="text-gray-300 text-sm mb-4">{feature.description}</p>
-                  <div className="flex items-center justify-between text-xs text-gray-400">
-                    <span>{feature.originalVotes} votes</span>
-                    <span>{feature.implementedDate}</span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
           </motion.div>
 
           {/* Popular Feature Requests */}
@@ -261,7 +248,7 @@ export default function FeatureRequestsPage() {
                 Popular Requests
               </h2>
               <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                Vote on community feature requests to help us prioritize development
+                Vote on existing feature requests to help us prioritize development
               </p>
             </div>
 
@@ -274,13 +261,12 @@ export default function FeatureRequestsPage() {
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   viewport={{ once: true, amount: 0.1 }}
-                  whileHover={{ scale: 1.01 }}
                 >
                   <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
+                    <div className="flex items-start justify-between">
                       <div className="flex-1">
-                        <div className="flex items-center mb-2">
-                          <h3 className="text-xl font-bold text-white mr-3">{request.title}</h3>
+                        <div className="flex items-center gap-3 mb-3">
+                          <h3 className="text-xl font-bold text-white">{request.title}</h3>
                           <span
                             className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(request.status)}`}
                           >
@@ -288,19 +274,23 @@ export default function FeatureRequestsPage() {
                           </span>
                         </div>
                         <p className="text-gray-300 mb-4">{request.description}</p>
-                        <div className="flex items-center space-x-4 text-sm text-gray-400">
-                          <span className="px-2 py-1 bg-red-500/20 text-red-400 rounded-full">{request.category}</span>
+                        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
+                          <span className="bg-red-500/20 text-red-400 px-2 py-1 rounded">{request.category}</span>
                           <span>{request.game}</span>
                           <span>{request.date}</span>
+                          <span className="flex items-center">
+                            <MessageSquare className="h-4 w-4 mr-1" />
+                            {request.comments} comments
+                          </span>
                         </div>
                       </div>
-                      <div className="flex flex-col items-center ml-6">
+                      <div className="ml-6 flex flex-col items-center">
                         <motion.button
                           onClick={() => handleVote(index)}
-                          className={`flex flex-col items-center p-3 rounded-lg transition-colors ${
+                          className={`flex flex-col items-center p-3 rounded-lg transition-all duration-300 ${
                             votedFeatures.has(index)
                               ? "bg-red-500/20 text-red-400"
-                              : "bg-gray-500/20 text-gray-400 hover:bg-red-500/10 hover:text-red-400"
+                              : "bg-gray-700/50 text-gray-400 hover:bg-red-500/10 hover:text-red-400"
                           }`}
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
@@ -310,10 +300,6 @@ export default function FeatureRequestsPage() {
                             {request.votes + (votedFeatures.has(index) ? 1 : 0)}
                           </span>
                         </motion.button>
-                        <div className="flex items-center mt-2 text-xs text-gray-400">
-                          <MessageSquare className="h-3 w-3 mr-1" />
-                          {request.comments}
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -322,7 +308,7 @@ export default function FeatureRequestsPage() {
             </div>
           </motion.div>
 
-          {/* Submit Feature Request Form */}
+          {/* Submit Feature Request */}
           <motion.div
             className="mb-20"
             initial={{ opacity: 0 }}
@@ -335,7 +321,7 @@ export default function FeatureRequestsPage() {
                 Submit a Feature Request
               </h2>
               <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-                Have an idea for a new feature? Share it with the community!
+                Have an idea for a new feature? Let us know what you'd like to see in Calamari
               </p>
             </div>
 
@@ -381,7 +367,7 @@ export default function FeatureRequestsPage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="category" className="block text-sm font-medium text-gray-300 mb-2">
-                        Feature Category
+                        Category
                       </label>
                       <select
                         id="category"
@@ -460,7 +446,7 @@ export default function FeatureRequestsPage() {
                       onChange={handleChange}
                       rows={4}
                       className="w-full px-4 py-3 bg-black/50 border border-red-500/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500/50 transition-colors resize-none"
-                      placeholder="Explain how this feature would benefit users and improve the software..."
+                      placeholder="Explain how this feature would improve the user experience or solve a problem..."
                     />
                   </div>
 
@@ -478,7 +464,58 @@ export default function FeatureRequestsPage() {
             </div>
           </motion.div>
 
-          {/* Community Guidelines */}
+          {/* Recently Implemented Features */}
+          <motion.div
+            className="mb-20"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+                Recently Implemented
+              </h2>
+              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+                Features that were requested by the community and have been implemented
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {implementedFeatures.map((feature, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-black/50 backdrop-blur-sm border border-green-500/20 rounded-xl overflow-hidden shadow-lg p-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                >
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
+                      <p className="text-gray-300 mb-3">{feature.description}</p>
+                      <div className="flex items-center gap-4 text-sm text-gray-400">
+                        <span className="flex items-center">
+                          <Star className="h-4 w-4 mr-1 text-yellow-400" />
+                          {feature.originalVotes} votes
+                        </span>
+                        <span>Implemented: {feature.implementedDate}</span>
+                      </div>
+                    </div>
+                    <div className="ml-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-green-500 rounded-full flex items-center justify-center">
+                        <TrendingUp className="h-6 w-6 text-white" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="h-1 bg-gradient-to-r from-green-600 to-green-500 rounded-full"></div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Guidelines */}
           <motion.div
             className="text-center"
             initial={{ opacity: 0, y: 20 }}
@@ -487,33 +524,32 @@ export default function FeatureRequestsPage() {
             viewport={{ once: true }}
           >
             <div className="bg-black/50 backdrop-blur-sm border border-red-500/20 rounded-2xl overflow-hidden shadow-lg p-12">
+              <div className="w-16 h-16 bg-gradient-to-br from-yellow-600 to-yellow-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Lightbulb className="h-8 w-8 text-white" />
+              </div>
               <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                 Feature Request Guidelines
               </h2>
               <div className="max-w-4xl mx-auto text-left">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-4 flex items-center">
-                      <Lightbulb className="mr-2 h-5 w-5 text-yellow-400" />
-                      Good Requests Include:
-                    </h3>
+                    <h3 className="text-xl font-bold text-white mb-4">✅ Good Requests Include:</h3>
                     <ul className="space-y-2 text-gray-300">
-                      <li>• Clear and specific descriptions</li>
-                      <li>• Explanation of benefits to users</li>
-                      <li>• Examples of how it would work</li>
+                      <li>• Clear, descriptive titles</li>
+                      <li>• Detailed explanations of the feature</li>
+                      <li>• Use cases and benefits</li>
+                      <li>• Specific game or general application</li>
                       <li>• Consideration of implementation complexity</li>
                     </ul>
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-4 flex items-center">
-                      <TrendingUp className="mr-2 h-5 w-5 text-green-400" />
-                      How We Prioritize:
-                    </h3>
+                    <h3 className="text-xl font-bold text-white mb-4">❌ Avoid These:</h3>
                     <ul className="space-y-2 text-gray-300">
-                      <li>• Community votes and engagement</li>
-                      <li>• Development complexity and resources</li>
-                      <li>• Alignment with product roadmap</li>
-                      <li>• Impact on user experience</li>
+                      <li>• Vague or unclear descriptions</li>
+                      <li>• Duplicate requests (check existing first)</li>
+                      <li>• Requests for illegal activities</li>
+                      <li>• Features that compromise security</li>
+                      <li>• Overly complex or unrealistic features</li>
                     </ul>
                   </div>
                 </div>

@@ -3,166 +3,126 @@
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ShoppingCart, Menu, X, ChevronDown, Settings, User, Shield, Zap, LogOut, LogIn } from "lucide-react"
+import {
+  ShoppingCart,
+  Menu,
+  X,
+  ChevronDown,
+  Home,
+  Package,
+  DollarSign,
+  HelpCircle,
+  Users,
+  Download,
+} from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { usePathname } from "next/navigation"
-import { useAuth } from "@/lib/auth"
-import AuthModal from "@/components/auth-modal"
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
-  const [logoDropdownOpen, setLogoDropdownOpen] = useState(false)
-  const [authModalOpen, setAuthModalOpen] = useState(false)
-  const [authModalTab, setAuthModalTab] = useState<"login" | "register">("login")
-  const logoDropdownRef = useRef<HTMLDivElement>(null)
   const pathname = usePathname()
-  const { user, logout } = useAuth()
+  const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true)
-      } else {
-        setScrolled(false)
-      }
+      setScrolled(window.scrollY > 50)
+    }
+
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node
+      Object.keys(dropdownRefs.current).forEach((key) => {
+        const ref = dropdownRefs.current[key]
+        if (ref && !ref.contains(target)) {
+          if (activeDropdown === key) {
+            setActiveDropdown(null)
+          }
+        }
+      })
     }
 
     window.addEventListener("scroll", handleScroll)
+    document.addEventListener("mousedown", handleClickOutside)
+
     return () => {
       window.removeEventListener("scroll", handleScroll)
-    }
-  }, [])
-
-  // Handle click outside for logo dropdown
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (logoDropdownRef.current && !logoDropdownRef.current.contains(event.target as Node)) {
-        setLogoDropdownOpen(false)
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => {
       document.removeEventListener("mousedown", handleClickOutside)
     }
-  }, [])
+  }, [activeDropdown])
 
   const menuItems = [
     {
       name: "Home",
       path: "/",
+      icon: Home,
     },
     {
       name: "Products",
       path: "#",
+      icon: Package,
       dropdown: true,
       items: [
-        { name: "Rust Cheats", path: "/our-product?product=rust" },
-        { name: "Fortnite Cheats", path: "/our-product?product=fortnite" },
-        { name: "Apex Cheats", path: "/our-product?product=apex" },
-        { name: "All Games", path: "/games-supported" },
-        { name: "Features", path: "/features" },
-        { name: "System Requirements", path: "/system-requirements" },
+        { name: "All Products", path: "/products" },
+        { name: "Rust Cheats", path: "/products/rust" },
+        { name: "Fortnite Cheats", path: "/products/fortnite" },
+        { name: "Apex Legends", path: "/products/apex" },
+        { name: "HWID Spoofer", path: "/products/hwid" },
+        { name: "Features Overview", path: "/features" },
       ],
     },
     {
       name: "Pricing",
       path: "/pricing",
+      icon: DollarSign,
     },
     {
       name: "Support",
       path: "#",
+      icon: HelpCircle,
       dropdown: true,
       items: [
         { name: "Help Center", path: "/help-center" },
+        { name: "Discord Community", path: "/discord-community" },
         { name: "Contact Support", path: "/contact-support" },
         { name: "Bug Reports", path: "/bug-reports" },
         { name: "Feature Requests", path: "/feature-requests" },
-        { name: "Discord Community", path: "/discord-community" },
         { name: "FAQ", path: "/faq" },
       ],
     },
     {
       name: "Company",
       path: "#",
+      icon: Users,
       dropdown: true,
       items: [
         { name: "About Us", path: "/about" },
         { name: "Our Team", path: "/our-team" },
-        { name: "Careers", path: "/careers" },
-        { name: "Press Kit", path: "/press-kit" },
-        { name: "Blog", path: "/blog" },
         { name: "Status", path: "/status" },
+        { name: "Security", path: "/security" },
+        { name: "Blog", path: "/blog" },
+        { name: "Careers", path: "/careers" },
       ],
     },
     {
       name: "Download",
       path: "/download",
+      icon: Download,
     },
   ]
 
-  const logoDropdownItems = user
-    ? [
-        { name: "Dashboard", path: "/dashboard", icon: User },
-        { name: "Settings", path: "/settings", icon: Settings },
-        { name: "Security", path: "/security", icon: Shield },
-        { name: "Performance", path: "/performance", icon: Zap },
-      ]
-    : [
-        {
-          name: "Login",
-          action: () => {
-            setAuthModalTab("login")
-            setAuthModalOpen(true)
-          },
-          icon: LogIn,
-        },
-        {
-          name: "Register",
-          action: () => {
-            setAuthModalTab("register")
-            setAuthModalOpen(true)
-          },
-          icon: User,
-        },
-      ]
-
   const isActive = (path: string) => {
-    if (path === "/") {
-      return pathname === path
-    }
-    if (path === "#") {
-      return false
-    }
+    if (path === "/") return pathname === path
+    if (path === "#") return false
     return pathname.startsWith(path.split("?")[0])
   }
 
-  const handleMouseEnter = (name: string) => {
-    setActiveDropdown(name)
+  const toggleDropdown = (itemName: string) => {
+    setActiveDropdown(activeDropdown === itemName ? null : itemName)
   }
 
-  const handleMouseLeave = () => {
-    setActiveDropdown(null)
-  }
-
-  const toggleDropdown = (name: string) => {
-    if (activeDropdown === name) {
-      setActiveDropdown(null)
-    } else {
-      setActiveDropdown(name)
-    }
-  }
-
-  const toggleLogoDropdown = () => {
-    setLogoDropdownOpen(!logoDropdownOpen)
-  }
-
-  const handleLogout = () => {
-    logout()
-    setLogoDropdownOpen(false)
+  const handlePurchase = () => {
+    window.open("https://calamari.mysellauth.com/#products", "_blank")
   }
 
   return (
@@ -173,7 +133,6 @@ export default function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        {/* Main Navigation */}
         <div
           className={`w-full ${
             scrolled
@@ -183,18 +142,19 @@ export default function Navbar() {
         >
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16 md:h-20">
-              {/* Logo with Dropdown */}
+              {/* Logo */}
               <div className="flex items-center">
                 <Link href="/" className="group flex items-center">
                   <motion.div
-                    className="relative w-10 h-10 mr-3 overflow-hidden rounded-full bg-gradient-to-br from-red-600/30 to-red-900/30 p-0.5 shadow-lg shadow-red-900/20 group-hover:shadow-red-900/40 transition-all duration-300"
+                    className="relative w-12 h-12 mr-3 flex items-center justify-center"
                     whileHover={{ rotate: 10, scale: 1.1 }}
                   >
                     <Image
-                      src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Calamari-diagonal-0MIPrqm68v07REXLgaOx76jFso80QO.png"
+                      src="/images/calamari-diagonal.png"
                       alt="Calamari Logo"
-                      fill
-                      className="object-contain p-1"
+                      width={40}
+                      height={40}
+                      className="object-contain filter brightness-0 invert"
                     />
                   </motion.div>
                   <motion.span className="text-xl font-bold text-white" whileHover={{ scale: 1.02 }}>
@@ -203,121 +163,33 @@ export default function Navbar() {
                     </span>
                   </motion.span>
                 </Link>
-
-                {/* Logo Dropdown Button */}
-                <div className="relative ml-3" ref={logoDropdownRef}>
-                  <motion.button
-                    onClick={toggleLogoDropdown}
-                    className={`p-2 rounded-md transition-colors duration-200 flex items-center ${
-                      logoDropdownOpen
-                        ? "text-white bg-red-500/10 border border-red-500/30"
-                        : "text-gray-400 hover:text-white hover:bg-white/5"
-                    }`}
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <ChevronDown
-                      className={`h-4 w-4 transition-transform duration-200 ${logoDropdownOpen ? "rotate-180" : ""}`}
-                    />
-                  </motion.button>
-
-                  <AnimatePresence>
-                    {logoDropdownOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        transition={{ duration: 0.15, ease: "easeOut" }}
-                        className="absolute top-full left-0 mt-2 w-48 bg-black/95 backdrop-blur-md border border-red-500/20 rounded-lg shadow-xl shadow-red-900/20 overflow-hidden z-50"
-                      >
-                        <div className="py-2">
-                          {user && (
-                            <>
-                              <div className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wider border-b border-red-500/10">
-                                Welcome, {user.username}
-                              </div>
-                              {logoDropdownItems.map((item, index) => {
-                                const IconComponent = item.icon
-                                return (
-                                  <Link
-                                    key={index}
-                                    href={item.path!}
-                                    className="flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-red-500/10 transition-colors duration-150"
-                                    onClick={() => setLogoDropdownOpen(false)}
-                                  >
-                                    <IconComponent className="h-4 w-4 mr-3" />
-                                    {item.name}
-                                  </Link>
-                                )
-                              })}
-                              <div className="border-t border-red-500/10 mt-1 pt-1">
-                                <button
-                                  onClick={() => {
-                                    setLogoDropdownOpen(false)
-                                    window.open("https://calamari.mysellauth.com/#products", "_blank")
-                                  }}
-                                  className="flex items-center w-full px-4 py-3 text-red-400 hover:text-red-300 hover:bg-red-500/10 transition-colors duration-150"
-                                >
-                                  <ShoppingCart className="h-4 w-4 mr-3" />
-                                  Purchase Now
-                                </button>
-                                <button
-                                  onClick={handleLogout}
-                                  className="flex items-center w-full px-4 py-3 text-gray-400 hover:text-white hover:bg-red-500/10 transition-colors duration-150"
-                                >
-                                  <LogOut className="h-4 w-4 mr-3" />
-                                  Logout
-                                </button>
-                              </div>
-                            </>
-                          )}
-                          {!user && (
-                            <>
-                              <div className="px-4 py-2 text-xs text-gray-500 uppercase tracking-wider border-b border-red-500/10">
-                                Account
-                              </div>
-                              {logoDropdownItems.map((item, index) => {
-                                const IconComponent = item.icon
-                                return (
-                                  <button
-                                    key={index}
-                                    onClick={() => {
-                                      setLogoDropdownOpen(false)
-                                      item.action?.()
-                                    }}
-                                    className="flex items-center w-full px-4 py-3 text-gray-300 hover:text-white hover:bg-red-500/10 transition-colors duration-150"
-                                  >
-                                    <IconComponent className="h-4 w-4 mr-3" />
-                                    {item.name}
-                                  </button>
-                                )
-                              })}
-                            </>
-                          )}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
               </div>
 
               {/* Desktop Navigation */}
               <div className="hidden lg:flex items-center space-x-1">
                 {menuItems.map((item, index) => (
-                  <div key={index} className="relative">
+                  <div
+                    key={index}
+                    className="relative"
+                    ref={(el) => {
+                      if (item.dropdown) {
+                        dropdownRefs.current[item.name] = el
+                      }
+                    }}
+                  >
                     {item.dropdown ? (
-                      <div
-                        className="relative"
-                        onMouseEnter={() => handleMouseEnter(item.name)}
-                        onMouseLeave={handleMouseLeave}
-                      >
+                      <div className="relative">
                         <button
+                          onClick={() => toggleDropdown(item.name)}
                           className={`px-4 py-2 rounded-md transition-colors duration-200 flex items-center ${
                             activeDropdown === item.name
                               ? "text-white font-medium bg-red-500/10"
                               : "text-gray-300 hover:text-white hover:bg-white/5"
                           }`}
+                          aria-expanded={activeDropdown === item.name}
+                          aria-haspopup="true"
                         >
+                          <item.icon className="mr-2 h-4 w-4" />
                           <span>{item.name}</span>
                           <ChevronDown
                             className={`ml-1 h-4 w-4 transition-transform duration-200 ${
@@ -354,12 +226,13 @@ export default function Navbar() {
                     ) : (
                       <Link
                         href={item.path}
-                        className={`px-4 py-2 rounded-md transition-colors duration-200 ${
+                        className={`px-4 py-2 rounded-md transition-colors duration-200 flex items-center ${
                           isActive(item.path)
                             ? "text-white font-medium bg-red-500/10"
                             : "text-gray-300 hover:text-white hover:bg-white/5"
                         }`}
                       >
+                        <item.icon className="mr-2 h-4 w-4" />
                         <motion.span whileHover={{ y: -2 }} transition={{ duration: 0.2 }} className="inline-block">
                           {item.name}
                         </motion.span>
@@ -374,9 +247,7 @@ export default function Navbar() {
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }} className="relative group">
                   <div className="absolute -inset-0.5 bg-gradient-to-r from-red-600 to-red-900 rounded-md blur opacity-30 group-hover:opacity-70 transition duration-300"></div>
                   <motion.button
-                    onClick={() => {
-                      window.open("https://calamari.mysellauth.com/#products", "_blank")
-                    }}
+                    onClick={handlePurchase}
                     className="relative flex items-center bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 px-4 py-2 rounded-md text-white font-medium transition-colors duration-300 shadow-lg shadow-red-900/20 hover:shadow-red-900/40"
                   >
                     <ShoppingCart className="mr-2 h-4 w-4" />
@@ -452,7 +323,10 @@ export default function Navbar() {
                                 : "bg-gray-900/30 text-gray-200 hover:text-white"
                             }`}
                           >
-                            <span className="text-lg">{item.name}</span>
+                            <div className="flex items-center">
+                              <item.icon className="mr-3 h-5 w-5" />
+                              <span className="text-lg">{item.name}</span>
+                            </div>
                             <ChevronDown
                               className={`h-5 w-5 transition-transform duration-200 ${
                                 activeDropdown === item.name ? "rotate-180" : ""
@@ -488,17 +362,18 @@ export default function Navbar() {
                       ) : (
                         <Link
                           href={item.path}
-                          className={`block px-4 py-3 rounded-lg transition-colors ${
+                          className={`flex items-center px-4 py-3 rounded-lg transition-colors ${
                             isActive(item.path)
                               ? "bg-red-900/20 text-white font-medium border border-red-500/30"
                               : "bg-gray-900/30 text-gray-200 hover:text-white"
                           }`}
                           onClick={() => setIsMenuOpen(false)}
                         >
+                          <item.icon className="mr-3 h-5 w-5" />
                           <motion.span
                             whileHover={{ x: 3 }}
                             transition={{ duration: 0.2 }}
-                            className="inline-block w-full text-lg"
+                            className="inline-block text-lg"
                           >
                             {item.name}
                           </motion.span>
@@ -519,7 +394,7 @@ export default function Navbar() {
                     <motion.button
                       onClick={() => {
                         setIsMenuOpen(false)
-                        window.open("https://calamari.mysellauth.com/#products", "_blank")
+                        handlePurchase()
                       }}
                       className="relative flex w-full items-center justify-center bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 px-4 py-4 rounded-md text-white font-medium transition-colors duration-300 shadow-lg shadow-red-900/20 hover:shadow-red-900/40"
                     >
@@ -527,36 +402,12 @@ export default function Navbar() {
                       GET CALAMARI
                     </motion.button>
                   </motion.div>
-
-                  <div className="pt-8 pb-4 text-center text-gray-500 text-sm">
-                    <p>Join our Discord community</p>
-                    <a
-                      href="https://discord.gg/calamari"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center mt-2 text-[#5865F2] hover:underline"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="mr-1"
-                      >
-                        <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z" />
-                      </svg>
-                      discord.gg/calamari
-                    </a>
-                  </div>
                 </nav>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </motion.header>
-
-      <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} defaultTab={authModalTab} />
     </>
   )
 }
