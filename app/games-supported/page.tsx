@@ -11,7 +11,7 @@ export default function GamesSupportedPage() {
   const games = [
     {
       name: "Rust",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
       features: ["Aimbot", "ESP", "Recoil Control", "Item ESP", "Player Radar", "Admin Detection"],
       platforms: {
@@ -22,7 +22,7 @@ export default function GamesSupportedPage() {
     },
     {
       name: "Fortnite",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
       features: ["Aimbot", "ESP", "Build Assist", "Loot ESP", "Player Tracker", "Storm Warning"],
       platforms: {
@@ -33,7 +33,7 @@ export default function GamesSupportedPage() {
     },
     {
       name: "Apex Legends",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
       features: ["Aimbot", "ESP", "Recoil Control", "Item ESP", "Enemy Tracker", "Ultimate Timer"],
       platforms: {
@@ -44,7 +44,7 @@ export default function GamesSupportedPage() {
     },
     {
       name: "Call of Duty: Warzone",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
       features: ["Aimbot", "ESP", "Recoil Control", "Loot ESP", "UAV Always On", "Heartbeat Sensor"],
       platforms: {
@@ -55,7 +55,7 @@ export default function GamesSupportedPage() {
     },
     {
       name: "Counter-Strike 2",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
       features: ["Aimbot", "ESP", "Recoil Control", "Sound ESP", "Radar Hack", "Anti-Flash"],
       platforms: {
@@ -66,7 +66,7 @@ export default function GamesSupportedPage() {
     },
     {
       name: "Valorant",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
       features: ["Aimbot", "ESP", "Recoil Control", "Ability Tracker", "Spike Timer", "Ultimate Counter"],
       platforms: {
@@ -77,7 +77,7 @@ export default function GamesSupportedPage() {
     },
     {
       name: "PUBG",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
       features: ["Aimbot", "ESP", "Recoil Control", "Vehicle ESP", "Loot ESP", "Zone Predictor"],
       platforms: {
@@ -88,7 +88,7 @@ export default function GamesSupportedPage() {
     },
     {
       name: "Escape from Tarkov",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
       features: ["Aimbot", "ESP", "Recoil Control", "Item ESP", "Extraction Points", "Scav Detection"],
       platforms: {
@@ -99,7 +99,7 @@ export default function GamesSupportedPage() {
     },
     {
       name: "Rainbow Six Siege",
-      image: "/placeholder.svg?height=100&width=100",
+      image: "/images/calamari-diagonal.png",
       status: "Fully Supported",
       features: ["Aimbot", "ESP", "Recoil Control", "Gadget ESP", "Operator Detection", "Defuser Timer"],
       platforms: {
@@ -164,8 +164,14 @@ export default function GamesSupportedPage() {
               >
                 <div className="p-6">
                   <div className="flex items-center mb-4">
-                    <div className="relative w-16 h-16 mr-4 rounded-lg overflow-hidden bg-gray-800">
-                      <Image src={game.image || "/placeholder.svg"} alt={game.name} fill className="object-cover" />
+                    <div className="relative w-16 h-16 mr-4 rounded-lg overflow-hidden bg-gray-800 flex items-center justify-center">
+                      <Image
+                        src={game.image || "/placeholder.svg"}
+                        alt={game.name}
+                        width={48}
+                        height={48}
+                        className="object-contain"
+                      />
                     </div>
                     <div>
                       <h3 className="text-xl font-bold text-white">{game.name}</h3>
@@ -251,8 +257,14 @@ export default function GamesSupportedPage() {
                   transition={{ duration: 0.4, delay: index * 0.1 }}
                   viewport={{ once: true, amount: 0.1 }}
                 >
-                  <div className="relative w-16 h-16 mx-auto mb-3 rounded-lg overflow-hidden bg-gray-800">
-                    <Image src={`/placeholder.svg?height=100&width=100`} alt={game} fill className="object-cover" />
+                  <div className="relative w-16 h-16 mx-auto mb-3 rounded-lg overflow-hidden bg-gray-800 flex items-center justify-center">
+                    <Image
+                      src="/images/calamari-diagonal.png"
+                      alt={game}
+                      width={48}
+                      height={48}
+                      className="object-contain"
+                    />
                   </div>
                   <h3 className="text-lg font-bold text-white">{game}</h3>
                   <span className="inline-block px-2 py-1 bg-yellow-500/20 text-yellow-400 text-xs rounded-full mt-2">

@@ -88,6 +88,10 @@ export default function PricingPage() {
     },
   ]
 
+  const handleGetStarted = () => {
+    window.open("https://calamari.mysellauth.com/", "_blank")
+  }
+
   return (
     <>
       <Navbar />
@@ -178,6 +182,7 @@ export default function PricingPage() {
                     className={`w-full py-3 rounded-lg font-bold text-white bg-gradient-to-r ${plan.color} hover:opacity-90 transition-all duration-300 shadow-lg`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    onClick={handleGetStarted}
                   >
                     Get Started
                   </motion.button>
@@ -304,7 +309,9 @@ export default function PricingPage() {
               Join thousands of players who have already taken their gaming to the next level with Calamari.
             </p>
             <motion.a
-              href="/#subscription-plans"
+              href="https://calamari.mysellauth.com/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-red-600 to-red-500 rounded-lg font-bold text-white hover:from-red-500 hover:to-red-400 transition-all duration-300 shadow-lg shadow-red-900/20"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}

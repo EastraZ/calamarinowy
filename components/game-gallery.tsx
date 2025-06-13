@@ -1,73 +1,131 @@
 "use client"
 
-import { motion } from "framer-motion"
-import { Shield, Zap, Target, Eye } from "lucide-react"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
+import ThreeDCard from "./3d-card-effect"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 export default function GameGallery() {
-  const features = [
+  const [mounted, setMounted] = useState(false)
+  const [activeIndex, setActiveIndex] = useState(0)
+
+  const games = [
     {
-      icon: <Target className="h-8 w-8" />,
-      title: "Precision Targeting",
-      description: "Advanced AI-powered targeting system with customizable settings",
-      color: "from-red-500 to-orange-500",
+      title: "Rust",
+      description: "Dominate the survival landscape with our advanced Rust cheats",
+      imageUrl: "/placeholder.svg?height=400&width=600",
+      badgeText: "POPULAR",
     },
     {
-      icon: <Eye className="h-8 w-8" />,
-      title: "Enhanced Vision",
-      description: "See through walls and obstacles with our ESP technology",
-      color: "from-blue-500 to-purple-500",
+      title: "Fortnite",
+      description: "Build faster, aim better, and secure Victory Royales",
+      imageUrl: "/placeholder.svg?height=400&width=600",
+      badgeText: "NEW",
     },
     {
-      icon: <Zap className="h-8 w-8" />,
-      title: "Performance Boost",
-      description: "Optimize your game performance for competitive advantage",
-      color: "from-green-500 to-teal-500",
+      title: "Apex Legends",
+      description: "Enhanced movement and precision aiming for competitive play",
+      imageUrl: "/placeholder.svg?height=400&width=600",
     },
     {
-      icon: <Shield className="h-8 w-8" />,
-      title: "Undetected Security",
-      description: "Military-grade encryption keeps you safe from detection",
-      color: "from-purple-500 to-pink-500",
+      title: "HWID Spoofer",
+      description: "Universal hardware ID spoofing for all your games",
+      imageUrl: "/placeholder.svg?height=400&width=600",
+      badgeText: "ESSENTIAL",
     },
   ]
 
+  useEffect(() => {
+    setMounted(true)
+
+    // Auto-rotate games
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % games.length)
+    }, 5000)
+
+    return () => clearInterval(interval)
+  }, [games.length])
+
+  const nextGame = () => {
+    setActiveIndex((prev) => (prev + 1) % games.length)
+  }
+
+  const prevGame = () => {
+    setActiveIndex((prev) => (prev - 1 + games.length) % games.length)
+  }
+
+  if (!mounted) return null
+
   return (
-    <section className="container mx-auto px-4 py-20 relative z-20">
+    <section className="container mx-auto px-4 py-16">
       <motion.div
-        className="text-center mb-16"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
+        className="text-center mb-12"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
       >
         <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
-          Core Features
+          Supported Games
         </h2>
-        <p className="text-gray-300 max-w-2xl mx-auto text-lg md:text-xl">
-          Experience the most advanced gaming enhancement tools available
+        <p className="text-gray-300 max-w-2xl mx-auto text-lg">
+          Explore our collection of premium gaming enhancement tools
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {features.map((feature, index) => (
-          <motion.div
-            key={index}
-            className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all duration-300"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: index * 0.1 }}
-            whileHover={{ scale: 1.05, y: -5 }}
-          >
-            <div
-              className={`w-16 h-16 rounded-full bg-gradient-to-r ${feature.color} flex items-center justify-center mb-4 text-white`}
-            >
-              {feature.icon}
-            </div>
-            <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
-            <p className="text-gray-400">{feature.description}</p>
-          </motion.div>
-        ))}
+      <div className="relative">
+        <div className="overflow-hidden">
+          <div className="flex items-center justify-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIndex}
+                className="w-full max-w-md h-96"
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.5 }}
+              >
+                <ThreeDCard
+                  imageUrl={games[activeIndex].imageUrl}
+                  title={games[activeIndex].title}
+                  description={games[activeIndex].description}
+                  badgeText={games[activeIndex].badgeText}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
+
+        {/* Navigation buttons */}
+        <motion.button
+          className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white p-2 rounded-full"
+          onClick={prevGame}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </motion.button>
+
+        <motion.button
+          className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-black/70 hover:bg-black/90 text-white p-2 rounded-full"
+          onClick={nextGame}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <ChevronRight className="w-5 h-5" />
+        </motion.button>
+
+        {/* Indicators */}
+        <div className="flex justify-center mt-6 space-x-2">
+          {games.map((_, index) => (
+            <button
+              key={index}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                index === activeIndex ? "bg-red-500 w-6" : "bg-gray-600"
+              }`}
+              onClick={() => setActiveIndex(index)}
+            />
+          ))}
+        </div>
       </div>
     </section>
   )
