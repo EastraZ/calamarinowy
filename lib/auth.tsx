@@ -9,6 +9,13 @@ export interface User {
   username: string
   isAdmin: boolean
   emailVerified: boolean
+  createdAt: string
+  lastLogin?: string
+  subscription?: {
+    plan: string
+    status: string
+    expiresAt: string
+  }
 }
 
 export interface ApiKey {
@@ -29,7 +36,7 @@ export interface WebhookConfig {
   secret?: string
 }
 
-// User database with hashed passwords (in a real app, this would be in a secure database)
+// Enhanced user database with more realistic data
 interface UserRecord {
   id: string
   email: string
@@ -37,17 +44,34 @@ interface UserRecord {
   password: string // In a real app, this would be hashed
   isAdmin: boolean
   emailVerified: boolean
+  createdAt: string
+  lastLogin?: string
+  verificationToken?: string
+  resetToken?: string
+  resetTokenExpiry?: string
+  subscription?: {
+    plan: string
+    status: string
+    expiresAt: string
+  }
 }
 
-// Mock user database
+// Mock user database with enhanced data
 const USERS_DB: UserRecord[] = [
   {
     id: "user_admin",
-    email: "Olektab4@gmail.com",
+    email: "admin@calamari.lol",
     username: "admin",
     password: "admin123", // In a real app, this would be hashed
     isAdmin: true,
     emailVerified: true,
+    createdAt: "2024-01-01T00:00:00Z",
+    lastLogin: "2024-06-13T21:02:26Z",
+    subscription: {
+      plan: "premium",
+      status: "active",
+      expiresAt: "2025-01-01T00:00:00Z",
+    },
   },
   {
     id: "user_test",
@@ -56,8 +80,83 @@ const USERS_DB: UserRecord[] = [
     password: "password123", // In a real app, this would be hashed
     isAdmin: false,
     emailVerified: true,
+    createdAt: "2024-02-01T00:00:00Z",
+    lastLogin: "2024-06-10T15:30:00Z",
+    subscription: {
+      plan: "basic",
+      status: "active",
+      expiresAt: "2024-12-01T00:00:00Z",
+    },
   },
 ]
+
+// Email service simulation
+class EmailService {
+  static async sendVerificationEmail(email: string, token: string): Promise<boolean> {
+    console.log(`Sending verification email to ${email} with token: ${token}`)
+    // Simulate API call delay
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    return true
+  }
+
+  static async sendPasswordResetEmail(email: string, token: string): Promise<boolean> {
+    console.log(`Sending password reset email to ${email} with token: ${token}`)
+    // Simulate API call delay
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    return true
+  }
+
+  static async sendWelcomeEmail(email: string, username: string): Promise<boolean> {
+    console.log(`Sending welcome email to ${email} for user: ${username}`)
+    // Simulate API call delay
+    await new Promise((resolve) => setTimeout(resolve, 500))
+    return true
+  }
+}
+
+// Password utility functions
+class PasswordUtils {
+  static generateSecurePassword(length = 12): string {
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*"
+    let password = ""
+    for (let i = 0; i < length; i++) {
+      password += charset.charAt(Math.floor(Math.random() * charset.length))
+    }
+    return password
+  }
+
+  static validatePassword(password: string): { isValid: boolean; errors: string[] } {
+    const errors: string[] = []
+
+    if (password.length < 8) {
+      errors.push("Password must be at least 8 characters long")
+    }
+    if (!/[A-Z]/.test(password)) {
+      errors.push("Password must contain at least one uppercase letter")
+    }
+    if (!/[a-z]/.test(password)) {
+      errors.push("Password must contain at least one lowercase letter")
+    }
+    if (!/[0-9]/.test(password)) {
+      errors.push("Password must contain at least one number")
+    }
+
+    return {
+      isValid: errors.length === 0,
+      errors,
+    }
+  }
+
+  static hashPassword(password: string): string {
+    // In a real app, use bcrypt or similar
+    return btoa(password + "salt")
+  }
+
+  static verifyPassword(password: string, hash: string): boolean {
+    // In a real app, use bcrypt.compare or similar
+    return btoa(password + "salt") === hash
+  }
+}
 
 interface AuthContextType {
   user: User | null
@@ -69,9 +168,13 @@ interface AuthContextType {
   ) => Promise<{ success: boolean; message: string; needsVerification?: boolean }>
   register: (email: string, username: string, password: string) => Promise<{ success: boolean; message: string }>
   logout: () => void
-  resetPassword: (email: string) => Promise<boolean>
-  verifyEmail: (token: string) => Promise<boolean>
-  sendVerificationEmail: () => Promise<boolean>
+  resetPassword: (email: string) => Promise<{ success: boolean; message: string }>
+  confirmPasswordReset: (token: string, newPassword: string) => Promise<{ success: boolean; message: string }>
+  verifyEmail: (token: string) => Promise<{ success: boolean; message: string }>
+  sendVerificationEmail: () => Promise<{ success: boolean; message: string }>
+  resendVerificationEmail: (email: string) => Promise<{ success: boolean; message: string }>
+  changePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; message: string }>
+  updateProfile: (data: { username?: string; email?: string }) => Promise<{ success: boolean; message: string }>
   generateApiKey: (name: string, permissions: string[]) => Promise<ApiKey | null>
   revokeApiKey: (keyId: string) => Promise<boolean>
   getApiKeys: () => Promise<ApiKey[]>
@@ -81,6 +184,7 @@ interface AuthContextType {
   getWebhooks: () => Promise<WebhookConfig[]>
   generateUserKey: (userId: string, plan: string, duration: number) => Promise<string | null>
   sendWebhook: (event: string, data: any) => Promise<boolean>
+  generatePassword: () => string
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -134,6 +238,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return { success: false, message: "Please verify your email first", needsVerification: true }
       }
 
+      // Update last login
+      userRecord.lastLogin = new Date().toISOString()
+
       // Create user object without password
       const newUser: User = {
         id: userRecord.id,
@@ -141,6 +248,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         username: userRecord.username,
         isAdmin: userRecord.isAdmin,
         emailVerified: userRecord.emailVerified,
+        createdAt: userRecord.createdAt,
+        lastLogin: userRecord.lastLogin,
+        subscription: userRecord.subscription,
       }
 
       setUser(newUser)
@@ -159,25 +269,54 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000))
 
+      // Validate password
+      const passwordValidation = PasswordUtils.validatePassword(password)
+      if (!passwordValidation.isValid) {
+        return { success: false, message: passwordValidation.errors.join(", ") }
+      }
+
       // Check if user already exists
       const existingUser = USERS_DB.find((u) => u.email.toLowerCase() === email.toLowerCase())
       if (existingUser) {
         return { success: false, message: "User with this email already exists" }
       }
 
-      // In a real app, we would add the user to the database here
-      // For this demo, we'll just pretend we did
+      // Check if username is taken
+      const existingUsername = USERS_DB.find((u) => u.username.toLowerCase() === username.toLowerCase())
+      if (existingUsername) {
+        return { success: false, message: "Username is already taken" }
+      }
 
-      const isAdmin = email.toLowerCase() === "olektab4@gmail.com"
+      const isAdmin = email.toLowerCase() === "admin@calamari.lol"
+      const verificationToken = Math.random().toString(36).substring(2, 15)
 
-      // If it's the admin account, auto-verify and log in
-      if (isAdmin) {
+      // Create new user record
+      const newUserRecord: UserRecord = {
+        id: "user_" + Math.random().toString(36).substring(2, 9),
+        email,
+        username,
+        password: PasswordUtils.hashPassword(password),
+        isAdmin,
+        emailVerified: isAdmin, // Auto-verify admin
+        createdAt: new Date().toISOString(),
+        verificationToken: isAdmin ? undefined : verificationToken,
+      }
+
+      // Add to mock database
+      USERS_DB.push(newUserRecord)
+
+      // Send verification email if not admin
+      if (!isAdmin) {
+        await EmailService.sendVerificationEmail(email, verificationToken)
+      } else {
+        // Auto-login admin
         const newUser: User = {
-          id: "user_" + Math.random().toString(36).substring(2, 9),
-          email,
-          username,
-          isAdmin: true,
-          emailVerified: true,
+          id: newUserRecord.id,
+          email: newUserRecord.email,
+          username: newUserRecord.username,
+          isAdmin: newUserRecord.isAdmin,
+          emailVerified: newUserRecord.emailVerified,
+          createdAt: newUserRecord.createdAt,
         }
 
         setUser(newUser)
@@ -185,6 +324,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           localStorage.setItem("calamari_user", JSON.stringify(newUser))
         }
       }
+
+      // Send welcome email
+      await EmailService.sendWelcomeEmail(email, username)
 
       return {
         success: true,
@@ -204,22 +346,206 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  const resetPassword = async (email: string): Promise<boolean> => {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    // In a real app, we would send a password reset email
-    return true
+  const resetPassword = async (email: string) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      const userRecord = USERS_DB.find((u) => u.email.toLowerCase() === email.toLowerCase())
+      if (!userRecord) {
+        return { success: false, message: "User not found" }
+      }
+
+      const resetToken = Math.random().toString(36).substring(2, 15)
+      const resetTokenExpiry = new Date(Date.now() + 3600000).toISOString() // 1 hour
+
+      userRecord.resetToken = resetToken
+      userRecord.resetTokenExpiry = resetTokenExpiry
+
+      await EmailService.sendPasswordResetEmail(email, resetToken)
+
+      return { success: true, message: "Password reset email sent! Check your inbox." }
+    } catch (error) {
+      return { success: false, message: "Failed to send reset email" }
+    }
   }
 
-  const verifyEmail = async (token: string): Promise<boolean> => {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    // In a real app, we would verify the token
-    return true
+  const confirmPasswordReset = async (token: string, newPassword: string) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      const passwordValidation = PasswordUtils.validatePassword(newPassword)
+      if (!passwordValidation.isValid) {
+        return { success: false, message: passwordValidation.errors.join(", ") }
+      }
+
+      const userRecord = USERS_DB.find((u) => u.resetToken === token)
+      if (!userRecord) {
+        return { success: false, message: "Invalid reset token" }
+      }
+
+      if (userRecord.resetTokenExpiry && new Date(userRecord.resetTokenExpiry) < new Date()) {
+        return { success: false, message: "Reset token has expired" }
+      }
+
+      userRecord.password = PasswordUtils.hashPassword(newPassword)
+      userRecord.resetToken = undefined
+      userRecord.resetTokenExpiry = undefined
+
+      return { success: true, message: "Password reset successful! You can now log in." }
+    } catch (error) {
+      return { success: false, message: "Failed to reset password" }
+    }
   }
 
-  const sendVerificationEmail = async (): Promise<boolean> => {
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    // In a real app, we would send a verification email
-    return true
+  const verifyEmail = async (token: string) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      const userRecord = USERS_DB.find((u) => u.verificationToken === token)
+      if (!userRecord) {
+        return { success: false, message: "Invalid verification token" }
+      }
+
+      userRecord.emailVerified = true
+      userRecord.verificationToken = undefined
+
+      return { success: true, message: "Email verified successfully! You can now log in." }
+    } catch (error) {
+      return { success: false, message: "Email verification failed" }
+    }
+  }
+
+  const sendVerificationEmail = async () => {
+    try {
+      if (!user) {
+        return { success: false, message: "No user logged in" }
+      }
+
+      const userRecord = USERS_DB.find((u) => u.id === user.id)
+      if (!userRecord) {
+        return { success: false, message: "User not found" }
+      }
+
+      if (userRecord.emailVerified) {
+        return { success: false, message: "Email is already verified" }
+      }
+
+      const verificationToken = Math.random().toString(36).substring(2, 15)
+      userRecord.verificationToken = verificationToken
+
+      await EmailService.sendVerificationEmail(userRecord.email, verificationToken)
+
+      return { success: true, message: "Verification email sent!" }
+    } catch (error) {
+      return { success: false, message: "Failed to send verification email" }
+    }
+  }
+
+  const resendVerificationEmail = async (email: string) => {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      const userRecord = USERS_DB.find((u) => u.email.toLowerCase() === email.toLowerCase())
+      if (!userRecord) {
+        return { success: false, message: "User not found" }
+      }
+
+      if (userRecord.emailVerified) {
+        return { success: false, message: "Email is already verified" }
+      }
+
+      const verificationToken = Math.random().toString(36).substring(2, 15)
+      userRecord.verificationToken = verificationToken
+
+      await EmailService.sendVerificationEmail(email, verificationToken)
+
+      return { success: true, message: "Verification email sent!" }
+    } catch (error) {
+      return { success: false, message: "Failed to send verification email" }
+    }
+  }
+
+  const changePassword = async (currentPassword: string, newPassword: string) => {
+    try {
+      if (!user) {
+        return { success: false, message: "No user logged in" }
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      const userRecord = USERS_DB.find((u) => u.id === user.id)
+      if (!userRecord) {
+        return { success: false, message: "User not found" }
+      }
+
+      if (!PasswordUtils.verifyPassword(currentPassword, userRecord.password)) {
+        return { success: false, message: "Current password is incorrect" }
+      }
+
+      const passwordValidation = PasswordUtils.validatePassword(newPassword)
+      if (!passwordValidation.isValid) {
+        return { success: false, message: passwordValidation.errors.join(", ") }
+      }
+
+      userRecord.password = PasswordUtils.hashPassword(newPassword)
+
+      return { success: true, message: "Password changed successfully!" }
+    } catch (error) {
+      return { success: false, message: "Failed to change password" }
+    }
+  }
+
+  const updateProfile = async (data: { username?: string; email?: string }) => {
+    try {
+      if (!user) {
+        return { success: false, message: "No user logged in" }
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
+      const userRecord = USERS_DB.find((u) => u.id === user.id)
+      if (!userRecord) {
+        return { success: false, message: "User not found" }
+      }
+
+      if (data.username) {
+        const existingUsername = USERS_DB.find(
+          (u) => u.username.toLowerCase() === data.username!.toLowerCase() && u.id !== user.id,
+        )
+        if (existingUsername) {
+          return { success: false, message: "Username is already taken" }
+        }
+        userRecord.username = data.username
+      }
+
+      if (data.email) {
+        const existingEmail = USERS_DB.find(
+          (u) => u.email.toLowerCase() === data.email!.toLowerCase() && u.id !== user.id,
+        )
+        if (existingEmail) {
+          return { success: false, message: "Email is already in use" }
+        }
+        userRecord.email = data.email
+        userRecord.emailVerified = false // Require re-verification for new email
+      }
+
+      // Update user state
+      const updatedUser: User = {
+        ...user,
+        username: userRecord.username,
+        email: userRecord.email,
+        emailVerified: userRecord.emailVerified,
+      }
+
+      setUser(updatedUser)
+      if (typeof window !== "undefined") {
+        localStorage.setItem("calamari_user", JSON.stringify(updatedUser))
+      }
+
+      return { success: true, message: "Profile updated successfully!" }
+    } catch (error) {
+      return { success: false, message: "Failed to update profile" }
+    }
   }
 
   const generateApiKey = async (name: string, permissions: string[]): Promise<ApiKey | null> => {
@@ -304,6 +630,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return true
   }
 
+  const generatePassword = (): string => {
+    return PasswordUtils.generateSecurePassword()
+  }
+
   const contextValue: AuthContextType = {
     user,
     loading,
@@ -312,8 +642,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     register,
     logout,
     resetPassword,
+    confirmPasswordReset,
     verifyEmail,
     sendVerificationEmail,
+    resendVerificationEmail,
+    changePassword,
+    updateProfile,
     generateApiKey,
     revokeApiKey,
     getApiKeys,
@@ -323,6 +657,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     getWebhooks,
     generateUserKey,
     sendWebhook,
+    generatePassword,
   }
 
   return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>

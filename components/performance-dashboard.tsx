@@ -52,7 +52,7 @@ export default function PerformanceDashboard() {
           Real-Time Performance
         </h2>
         <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-          See how Calamari transforms your gaming performance with live metrics and analytics
+          See how Koala.Vip transforms your gaming performance with live metrics and analytics
         </p>
       </motion.div>
 
@@ -101,7 +101,7 @@ export default function PerformanceDashboard() {
         <div className="h-64 bg-gradient-to-br from-gray-900/50 to-black/50 rounded-xl flex items-center justify-center">
           <div className="text-center">
             <motion.div
-              className="w-16 h-16 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4"
+              className="w-16 h-16 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4"
               animate={{ rotate: 360 }}
               transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
             >

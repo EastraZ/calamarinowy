@@ -25,7 +25,7 @@ export default function BlogPage() {
     {
       id: 2,
       title: "Staying Undetected: Advanced Anti-Cheat Bypass Techniques",
-      excerpt: "Learn about the latest methods we use to keep Calamari undetected across all supported games.",
+      excerpt: "Learn about the latest methods we use to keep Koala.Vip undetected across all supported games.",
       author: "Sarah Chen",
       date: "2024-01-10",
       readTime: "8 min read",
@@ -34,7 +34,7 @@ export default function BlogPage() {
     },
     {
       id: 3,
-      title: "Rust Gameplay Revolution: New Features in Calamari 3.5",
+      title: "Rust Gameplay Revolution: New Features in Koala.Vip 3.5",
       excerpt:
         "Explore the latest updates to our Rust enhancement tools, including improved aimbot accuracy and ESP features.",
       author: "Marcus Johnson",
@@ -46,7 +46,7 @@ export default function BlogPage() {
     {
       id: 4,
       title: "Building a Competitive Edge in Fortnite",
-      excerpt: "Tips and strategies for using Calamari's Fortnite features to dominate in competitive matches.",
+      excerpt: "Tips and strategies for using Koala.Vip's Fortnite features to dominate in competitive matches.",
       author: "Emily Davis",
       date: "2023-12-28",
       readTime: "7 min read",
@@ -66,7 +66,7 @@ export default function BlogPage() {
     {
       id: 6,
       title: "Apex Legends Season 19: Optimization Updates",
-      excerpt: "How we've optimized Calamari for the latest Apex Legends season and new character abilities.",
+      excerpt: "How we've optimized Koala.Vip for the latest Apex Legends season and new character abilities.",
       author: "Lisa Thompson",
       date: "2023-12-15",
       readTime: "4 min read",
@@ -87,9 +87,9 @@ export default function BlogPage() {
       <div className="min-h-screen bg-black text-white pt-32 pb-20 relative overflow-hidden">
         {/* Background effects */}
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-b from-black via-red-950/10 to-black"></div>
-          <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-red-500/10 rounded-full filter blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-red-500/10 rounded-full filter blur-3xl"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black via-green-950/10 to-black"></div>
+          <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-green-500/10 rounded-full filter blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-1/3 h-1/3 bg-green-500/10 rounded-full filter blur-3xl"></div>
           <div className="absolute inset-0 opacity-30">
             <MatrixRain />
           </div>
@@ -109,7 +109,7 @@ export default function BlogPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Calamari Blog
+              Koala.Vip Blog
             </motion.h1>
             <motion.p
               className="text-xl text-gray-300 max-w-3xl mx-auto"
@@ -134,7 +134,7 @@ export default function BlogPage() {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
                   selectedCategory === category
-                    ? "bg-red-500 text-white shadow-lg shadow-red-500/30"
+                    ? "bg-green-500 text-white shadow-lg shadow-green-500/30"
                     : "bg-white/10 text-gray-300 hover:bg-white/20 hover:text-white"
                 }`}
               >
@@ -151,7 +151,7 @@ export default function BlogPage() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <div className="bg-black/50 backdrop-blur-sm border border-red-500/20 rounded-2xl overflow-hidden shadow-lg">
+              <div className="bg-black/50 backdrop-blur-sm border border-green-500/20 rounded-2xl overflow-hidden shadow-lg">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                   <div className="relative h-64 lg:h-full">
                     <img
@@ -159,7 +159,7 @@ export default function BlogPage() {
                       alt={blogPosts[0].title}
                       className="w-full h-full object-cover"
                     />
-                    <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    <div className="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                       Featured
                     </div>
                   </div>
@@ -185,7 +185,7 @@ export default function BlogPage() {
                         <User className="h-5 w-5 text-gray-400 mr-2" />
                         <span className="text-gray-300">{blogPosts[0].author}</span>
                       </div>
-                      <button className="flex items-center text-red-400 hover:text-red-300 font-medium">
+                      <button className="flex items-center text-green-400 hover:text-green-300 font-medium">
                         Read More
                         <ArrowRight className="h-4 w-4 ml-2" />
                       </button>
@@ -206,7 +206,7 @@ export default function BlogPage() {
             {filteredPosts.slice(selectedCategory === "All" ? 1 : 0).map((post, index) => (
               <motion.article
                 key={post.id}
-                className="bg-black/50 backdrop-blur-sm border border-red-500/20 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group"
+                className="bg-black/50 backdrop-blur-sm border border-green-500/20 rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -218,7 +218,7 @@ export default function BlogPage() {
                     alt={post.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute top-4 left-4 bg-red-500/80 text-white px-3 py-1 rounded-full text-sm font-medium">
+                  <div className="absolute top-4 left-4 bg-green-500/80 text-white px-3 py-1 rounded-full text-sm font-medium">
                     {post.category}
                   </div>
                 </div>
@@ -233,7 +233,7 @@ export default function BlogPage() {
                       {post.readTime}
                     </span>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-red-400 transition-colors">
+                  <h3 className="text-xl font-bold text-white mb-3 group-hover:text-green-400 transition-colors">
                     {post.title}
                   </h3>
                   <p className="text-gray-300 mb-4 leading-relaxed">{post.excerpt}</p>
@@ -242,7 +242,7 @@ export default function BlogPage() {
                       <User className="h-4 w-4 text-gray-400 mr-2" />
                       <span className="text-gray-300 text-sm">{post.author}</span>
                     </div>
-                    <button className="flex items-center text-red-400 hover:text-red-300 font-medium text-sm">
+                    <button className="flex items-center text-green-400 hover:text-green-300 font-medium text-sm">
                       Read More
                       <ArrowRight className="h-4 w-4 ml-1" />
                     </button>
@@ -254,7 +254,7 @@ export default function BlogPage() {
 
           {/* Newsletter Signup */}
           <motion.div
-            className="mt-20 bg-gradient-to-r from-red-500/10 to-purple-500/10 rounded-2xl p-8 border border-red-500/20 text-center"
+            className="mt-20 bg-gradient-to-r from-green-500/10 to-emerald-500/10 rounded-2xl p-8 border border-green-500/20 text-center"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -268,9 +268,9 @@ export default function BlogPage() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500 transition-colors"
+                className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-500 transition-colors"
               />
-              <button className="px-6 py-3 bg-gradient-to-r from-red-500 to-orange-500 rounded-lg font-medium text-white hover:from-red-600 hover:to-orange-600 transition-colors">
+              <button className="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg font-medium text-white hover:from-green-600 hover:to-emerald-600 transition-colors">
                 Subscribe
               </button>
             </div>

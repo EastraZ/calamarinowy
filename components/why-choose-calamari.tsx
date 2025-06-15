@@ -77,13 +77,7 @@ export default function WhyChooseCalamari() {
 
       {/* Logo in corner */}
       <div className="absolute top-4 right-4 floating z-10">
-        <Image
-          src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Calamari-diagonal-0MIPrqm68v07REXLgaOx76jFso80QO.png"
-          alt="Calamari Logo"
-          width={70}
-          height={70}
-          className="opacity-80"
-        />
+        <Image src="/images/calamari-box.png" alt="Calamari Logo" width={70} height={70} className="opacity-80" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">

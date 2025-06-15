@@ -9,21 +9,21 @@ export default function UniqueFeaturesGrid() {
       icon: Shield,
       title: "Kernel-Level Protection",
       description: "Deep system integration for maximum stealth and performance",
-      color: "from-blue-500 to-cyan-500",
+      color: "from-red-500 to-red-600",
       stats: "Ring 0 Access",
     },
     {
       icon: Zap,
       title: "Real-Time Optimization",
       description: "Dynamic performance tuning based on your system specs",
-      color: "from-green-500 to-emerald-500",
+      color: "from-orange-500 to-orange-600",
       stats: "Auto-Tune",
     },
     {
       icon: Eye,
       title: "Advanced Visual Engine",
       description: "Custom rendering pipeline for enhanced visual information",
-      color: "from-purple-500 to-pink-500",
+      color: "from-red-600 to-red-700",
       stats: "4K Ready",
     },
     {
@@ -44,7 +44,7 @@ export default function UniqueFeaturesGrid() {
       icon: Cpu,
       title: "Multi-Core Optimization",
       description: "Utilizes all available CPU cores for maximum efficiency",
-      color: "from-indigo-500 to-purple-500",
+      color: "from-red-500 to-orange-500",
       stats: "16 Core Support",
     },
     {
@@ -58,7 +58,7 @@ export default function UniqueFeaturesGrid() {
       icon: Monitor,
       title: "Multi-Monitor Support",
       description: "Seamless operation across multiple display configurations",
-      color: "from-teal-500 to-blue-500",
+      color: "from-orange-500 to-red-500",
       stats: "8K Support",
     },
   ]

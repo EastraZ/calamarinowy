@@ -131,7 +131,7 @@ export default function Footer() {
                   transition={{ delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-red-600/20 to-red-900/20 rounded-full flex items-center justify-center group-hover:from-red-600/30 group-hover:to-red-900/30 transition-all duration-300">
+                  <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-br from-red-600/20 to-red-900/20 rounded-full flex items-center justify-center group-hover:from-red-600/30 group-hover:to-red-900/30 transition-all duration-300 border border-red-500/30">
                     <feature.icon className="h-6 w-6 text-red-400" />
                   </div>
                   <h3 className="text-white font-semibold mb-1">{feature.title}</h3>
@@ -154,14 +154,15 @@ export default function Footer() {
                 viewport={{ once: true }}
               >
                 <Link href="/" className="flex items-center mb-6 group">
-                  <div className="w-12 h-12 mr-4 bg-gradient-to-br from-red-600 to-red-900 rounded-full flex items-center justify-center shadow-lg shadow-red-900/30 group-hover:shadow-red-900/50 transition-all duration-300 p-2">
+                  <div className="w-12 h-12 mr-4 relative">
                     <Image
-                      src="/images/calamari-diagonal.png"
+                      src="/images/calamari-logo.png"
                       alt="Calamari Logo"
-                      width={32}
-                      height={32}
-                      className="object-contain filter brightness-0 invert"
+                      width={48}
+                      height={48}
+                      className="object-contain group-hover:scale-110 transition-transform duration-300"
                     />
+                    <div className="absolute inset-0 bg-red-400/10 rounded-xl blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                   <span className="text-2xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
                     Calamari.lol
@@ -181,7 +182,7 @@ export default function Footer() {
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`w-10 h-10 bg-gray-800/50 rounded-full flex items-center justify-center text-gray-400 transition-all duration-300 ${social.color} hover:bg-gray-700/50 hover:scale-110`}
+                      className={`w-10 h-10 bg-gray-800/50 rounded-full flex items-center justify-center text-gray-400 transition-all duration-300 ${social.color} hover:bg-gray-700/50 hover:scale-110 border border-red-500/20`}
                       whileHover={{ y: -2 }}
                       whileTap={{ scale: 0.95 }}
                     >
@@ -307,7 +308,7 @@ export default function Footer() {
                 viewport={{ once: true }}
               >
                 <div className="flex items-center text-gray-400">
-                  <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                  <div className="w-2 h-2 bg-red-400 rounded-full mr-2 animate-pulse"></div>
                   <span>All systems operational</span>
                 </div>
                 <Link href="/status" className="text-gray-400 hover:text-white transition-colors">

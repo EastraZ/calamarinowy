@@ -142,7 +142,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
           onClick={onClose}
         >
           <motion.div
-            className="bg-black/90 backdrop-blur-md border border-red-500/20 rounded-2xl p-8 w-full max-w-md"
+            className="bg-black/90 backdrop-blur-md border border-green-500/20 rounded-2xl p-8 w-full max-w-md"
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
@@ -151,7 +151,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-2xl font-bold text-white">
                 {activeTab === "login" && "Welcome Back"}
-                {activeTab === "register" && "Join Calamari"}
+                {activeTab === "register" && "Join Koala.Vip"}
                 {activeTab === "forgot-password" && "Reset Password"}
                 {activeTab === "verify-email" && "Verify Email"}
               </h2>
@@ -166,7 +166,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   onClick={() => setActiveTab("login")}
                   className={`flex-1 py-2 px-4 rounded-md transition-colors ${
-                    activeTab === "login" ? "bg-red-600 text-white" : "text-gray-400 hover:text-white"
+                    activeTab === "login" ? "bg-green-600 text-white" : "text-gray-400 hover:text-white"
                   }`}
                 >
                   Login
@@ -174,7 +174,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   onClick={() => setActiveTab("register")}
                   className={`flex-1 py-2 px-4 rounded-md transition-colors ${
-                    activeTab === "register" ? "bg-red-600 text-white" : "text-gray-400 hover:text-white"
+                    activeTab === "register" ? "bg-green-600 text-white" : "text-gray-400 hover:text-white"
                   }`}
                 >
                   Register
@@ -213,7 +213,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       type="email"
                       value={loginData.email}
                       onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
-                      className="w-full pl-10 pr-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500"
+                      className="w-full pl-10 pr-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-500"
                       placeholder="Enter your email"
                       required
                     />
@@ -228,7 +228,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       type={showPassword ? "text" : "password"}
                       value={loginData.password}
                       onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
-                      className="w-full pl-10 pr-12 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500"
+                      className="w-full pl-10 pr-12 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-500"
                       placeholder="Enter your password"
                       required
                     />
@@ -246,7 +246,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                   <button
                     type="button"
                     onClick={() => setActiveTab("forgot-password")}
-                    className="text-sm text-red-400 hover:text-red-300"
+                    className="text-sm text-green-400 hover:text-green-300"
                   >
                     Forgot password?
                   </button>
@@ -255,7 +255,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 py-3 rounded-lg font-bold text-white transition-all duration-300 disabled:opacity-50"
+                  className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 py-3 rounded-lg font-bold text-white transition-all duration-300 disabled:opacity-50"
                 >
                   {loading ? "Signing In..." : "Sign In"}
                 </button>
@@ -273,7 +273,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       type="email"
                       value={registerData.email}
                       onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
-                      className="w-full pl-10 pr-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500"
+                      className="w-full pl-10 pr-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-500"
                       placeholder="Enter your email"
                       required
                     />
@@ -288,7 +288,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       type="text"
                       value={registerData.username}
                       onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })}
-                      className="w-full pl-10 pr-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500"
+                      className="w-full pl-10 pr-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-500"
                       placeholder="Choose a username"
                       required
                     />
@@ -303,7 +303,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       type={showPassword ? "text" : "password"}
                       value={registerData.password}
                       onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
-                      className="w-full pl-10 pr-12 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500"
+                      className="w-full pl-10 pr-12 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-500"
                       placeholder="Create a password"
                       required
                     />
@@ -325,7 +325,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       type={showPassword ? "text" : "password"}
                       value={registerData.confirmPassword}
                       onChange={(e) => setRegisterData({ ...registerData, confirmPassword: e.target.value })}
-                      className="w-full pl-10 pr-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500"
+                      className="w-full pl-10 pr-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-500"
                       placeholder="Confirm your password"
                       required
                     />
@@ -335,7 +335,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 py-3 rounded-lg font-bold text-white transition-all duration-300 disabled:opacity-50"
+                  className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 py-3 rounded-lg font-bold text-white transition-all duration-300 disabled:opacity-50"
                 >
                   {loading ? "Creating Account..." : "Create Account"}
                 </button>
@@ -353,7 +353,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       type="email"
                       value={forgotPasswordData.email}
                       onChange={(e) => setForgotPasswordData({ email: e.target.value })}
-                      className="w-full pl-10 pr-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500"
+                      className="w-full pl-10 pr-4 py-3 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-500"
                       placeholder="Enter your email"
                       required
                     />
@@ -363,7 +363,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 py-3 rounded-lg font-bold text-white transition-all duration-300 disabled:opacity-50"
+                  className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 py-3 rounded-lg font-bold text-white transition-all duration-300 disabled:opacity-50"
                 >
                   {loading ? "Sending..." : "Send Reset Email"}
                 </button>
@@ -394,7 +394,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                       type="text"
                       value={verifyEmailData.token}
                       onChange={(e) => setVerifyEmailData({ token: e.target.value })}
-                      className="w-full py-3 px-4 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-red-500 text-center text-lg tracking-widest"
+                      className="w-full py-3 px-4 bg-gray-900/50 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-green-500 text-center text-lg tracking-widest"
                       placeholder="Enter verification code"
                       required
                     />
@@ -403,7 +403,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 py-3 rounded-lg font-bold text-white transition-all duration-300 disabled:opacity-50"
+                    className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 py-3 rounded-lg font-bold text-white transition-all duration-300 disabled:opacity-50"
                   >
                     {loading ? "Verifying..." : "Verify Email"}
                   </button>
@@ -414,7 +414,7 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
                   <button
                     onClick={handleResendVerification}
                     disabled={loading}
-                    className="text-red-400 hover:text-red-300 text-sm disabled:opacity-50"
+                    className="text-green-400 hover:text-green-300 text-sm disabled:opacity-50"
                   >
                     Resend verification email
                   </button>
@@ -432,11 +432,11 @@ export default function AuthModal({ isOpen, onClose, defaultTab = "login" }: Aut
 
             <div className="mt-6 text-center text-sm text-gray-400">
               By continuing, you agree to our{" "}
-              <a href="/terms" className="text-red-400 hover:text-red-300">
+              <a href="/terms" className="text-green-400 hover:text-green-300">
                 Terms of Service
               </a>{" "}
               and{" "}
-              <a href="/privacy" className="text-red-400 hover:text-red-300">
+              <a href="/privacy" className="text-green-400 hover:text-green-300">
                 Privacy Policy
               </a>
             </div>

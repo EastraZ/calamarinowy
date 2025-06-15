@@ -11,9 +11,9 @@ import {
   ShoppingCart,
   UserPlus,
   Settings,
+  ExternalLink,
+  Info,
 } from "lucide-react"
-import Navbar from "@/components/navbar"
-import Footer from "@/components/footer"
 import MatrixRain from "@/components/matrix-rain"
 import { useState } from "react"
 
@@ -62,7 +62,6 @@ export default function DownloadPage() {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen bg-black text-white pt-32 pb-20 relative overflow-hidden">
         {/* Background effects */}
         <div className="absolute inset-0 z-0">
@@ -98,6 +97,54 @@ export default function DownloadPage() {
             >
               Get the latest version of our advanced gaming enhancement software
             </motion.p>
+          </motion.div>
+
+          {/* Important HudSight Notice */}
+          <motion.div
+            className="max-w-4xl mx-auto mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl overflow-hidden shadow-lg p-8">
+              <div className="flex items-start">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-500 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
+                  <Info className="h-6 w-6 text-white" />
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-blue-400 mb-4">Required Software - HudSight</h3>
+                  <div className="space-y-3 text-gray-300">
+                    <p className="text-lg font-medium">
+                      To inject Calamari, you must download the following software first:
+                    </p>
+                    <div className="bg-black/40 rounded-lg p-4 border border-blue-500/30">
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-blue-300">https://hudsight.com/</span>
+                        <motion.a
+                          href="https://hudsight.com/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium text-white transition-all duration-300"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <ExternalLink className="h-4 w-4 mr-2" />
+                          Download HudSight
+                        </motion.a>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <p>
+                        <strong>Important:</strong> Run HudSight before you inject Calamari. The cheat will wait for
+                        HudSight after you press OK to inject and will not inject until it's active.
+                      </p>
+                      <p>Please download HudSight and have it running before attempting to use Calamari.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </motion.div>
 
           {/* Download Card */}
@@ -375,7 +422,6 @@ export default function DownloadPage() {
           </motion.div>
         </div>
       </div>
-      <Footer />
     </>
   )
 }

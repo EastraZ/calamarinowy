@@ -1,413 +1,337 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
-import {
-  ShoppingCart,
-  Menu,
-  X,
-  ChevronDown,
-  Home,
-  Package,
-  DollarSign,
-  HelpCircle,
-  Users,
-  Download,
-} from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-import { usePathname } from "next/navigation"
+import { Menu, X, ChevronDown, User, LogOut, Settings, Shield } from "lucide-react"
+import { useAuth } from "@/lib/auth"
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
-  const pathname = usePathname()
-  const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
+  const { user, logout } = useAuth()
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
+      setScrolled(window.scrollY > 20)
     }
-
-    const handleClickOutside = (event: MouseEvent) => {
-      const target = event.target as Node
-      Object.keys(dropdownRefs.current).forEach((key) => {
-        const ref = dropdownRefs.current[key]
-        if (ref && !ref.contains(target)) {
-          if (activeDropdown === key) {
-            setActiveDropdown(null)
-          }
-        }
-      })
-    }
-
     window.addEventListener("scroll", handleScroll)
-    document.addEventListener("mousedown", handleClickOutside)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll)
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [activeDropdown])
-
-  const menuItems = [
-    {
-      name: "Home",
-      path: "/",
-      icon: Home,
-    },
+  const navigation = [
+    { name: "Home", href: "/" },
     {
       name: "Products",
-      path: "#",
-      icon: Package,
-      dropdown: true,
-      items: [
-        { name: "All Products", path: "/products" },
-        { name: "Rust Cheats", path: "/products/rust" },
-        { name: "Fortnite Cheats", path: "/products/fortnite" },
-        { name: "Apex Legends", path: "/products/apex" },
-        { name: "HWID Spoofer", path: "/products/hwid" },
-        { name: "Features Overview", path: "/features" },
+      href: "/products",
+      dropdown: [
+        { name: "All Products", href: "/products" },
+        { name: "Rust", href: "/products/rust" },
+        { name: "Fortnite", href: "/products/fortnite" },
+        { name: "Apex Legends", href: "/products/apex" },
       ],
     },
     {
-      name: "Pricing",
-      path: "/pricing",
-      icon: DollarSign,
+      name: "Features",
+      href: "/features",
+      dropdown: [
+        { name: "All Features", href: "/features" },
+        { name: "Magic Bullet", href: "/features#magic-bullet" },
+        { name: "ESP/Wallhack", href: "/features#esp" },
+        { name: "HWID Spoofing", href: "/features#hwid" },
+        { name: "Anti-Detection", href: "/features#anti-detection" },
+      ],
     },
+    { name: "Pricing", href: "/pricing" },
     {
       name: "Support",
-      path: "#",
-      icon: HelpCircle,
-      dropdown: true,
-      items: [
-        { name: "Help Center", path: "/help-center" },
-        { name: "Discord Community", path: "/discord-community" },
-        { name: "Contact Support", path: "/contact-support" },
-        { name: "Bug Reports", path: "/bug-reports" },
-        { name: "Feature Requests", path: "/feature-requests" },
-        { name: "FAQ", path: "/faq" },
+      href: "/support",
+      dropdown: [
+        { name: "Help Center", href: "/help-center" },
+        { name: "Contact Support", href: "/contact-support" },
+        { name: "Discord Community", href: "/discord-community" },
+        { name: "Bug Reports", href: "/bug-reports" },
+        { name: "Feature Requests", href: "/feature-requests" },
       ],
     },
     {
-      name: "Company",
-      path: "#",
-      icon: Users,
-      dropdown: true,
-      items: [
-        { name: "About Us", path: "/about" },
-        { name: "Our Team", path: "/our-team" },
-        { name: "Status", path: "/status" },
-        { name: "Security", path: "/security" },
-        { name: "Blog", path: "/blog" },
-        { name: "Careers", path: "/careers" },
+      name: "More",
+      href: "#",
+      dropdown: [
+        { name: "About Us", href: "/about" },
+        { name: "System Requirements", href: "/system-requirements" },
+        { name: "Status", href: "/status" },
       ],
-    },
-    {
-      name: "Download",
-      path: "/download",
-      icon: Download,
     },
   ]
 
-  const isActive = (path: string) => {
-    if (path === "/") return pathname === path
-    if (path === "#") return false
-    return pathname.startsWith(path.split("?")[0])
-  }
-
-  const toggleDropdown = (itemName: string) => {
-    setActiveDropdown(activeDropdown === itemName ? null : itemName)
+  const handleDropdownToggle = (name: string) => {
+    setActiveDropdown(activeDropdown === name ? null : name)
   }
 
   const handlePurchase = () => {
-    window.open("https://calamari.mysellauth.com/#products", "_blank")
+    window.open("https://calamari.mysellauth.com/", "_blank")
   }
 
   return (
-    <>
-      <motion.header
-        className="fixed top-0 left-0 right-0 z-[100]"
-        initial={{ y: -100, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div
-          className={`w-full ${
-            scrolled
-              ? "bg-black/95 shadow-lg backdrop-blur-md border-b border-red-500/20"
-              : "bg-gradient-to-b from-black/90 to-black/80 backdrop-blur-sm border-b border-red-500/10"
-          } transition-all duration-500`}
-        >
-          <div className="container mx-auto px-4">
-            <div className="flex items-center justify-between h-16 md:h-20">
-              {/* Logo */}
-              <div className="flex items-center">
-                <Link href="/" className="group flex items-center">
-                  <motion.div
-                    className="relative w-12 h-12 mr-3 flex items-center justify-center"
-                    whileHover={{ rotate: 10, scale: 1.1 }}
-                  >
-                    <Image
-                      src="/images/calamari-diagonal.png"
-                      alt="Calamari Logo"
-                      width={40}
-                      height={40}
-                      className="object-contain filter brightness-0 invert"
-                    />
-                  </motion.div>
-                  <motion.span className="text-xl font-bold text-white" whileHover={{ scale: 1.02 }}>
-                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
-                      Calamari.lol
-                    </span>
-                  </motion.span>
-                </Link>
-              </div>
+    <motion.nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-black/95 backdrop-blur-xl border-b border-red-500/20 shadow-lg shadow-red-900/10"
+          : "bg-transparent"
+      }`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-20">
+          {/* Logo */}
+          <Link href="/" className="flex items-center space-x-3 group">
+            <div className="relative">
+              <Image
+                src="/images/calamari-logo.png"
+                alt="Calamari Logo"
+                width={40}
+                height={40}
+                className="object-contain group-hover:scale-110 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-red-500/30 rounded-xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            </div>
+            <span className="text-2xl font-bold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+              Calamari.lol
+            </span>
+          </Link>
 
-              {/* Desktop Navigation */}
-              <div className="hidden lg:flex items-center space-x-1">
-                {menuItems.map((item, index) => (
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center space-x-1">
+            {navigation.map((item) => (
+              <div key={item.name} className="relative group">
+                {item.dropdown ? (
                   <div
-                    key={index}
                     className="relative"
-                    ref={(el) => {
-                      if (item.dropdown) {
-                        dropdownRefs.current[item.name] = el
-                      }
-                    }}
+                    onMouseEnter={() => setActiveDropdown(item.name)}
+                    onMouseLeave={() => setActiveDropdown(null)}
                   >
-                    {item.dropdown ? (
-                      <div className="relative">
-                        <button
-                          onClick={() => toggleDropdown(item.name)}
-                          className={`px-4 py-2 rounded-md transition-colors duration-200 flex items-center ${
-                            activeDropdown === item.name
-                              ? "text-white font-medium bg-red-500/10"
-                              : "text-gray-300 hover:text-white hover:bg-white/5"
-                          }`}
-                          aria-expanded={activeDropdown === item.name}
-                          aria-haspopup="true"
+                    <button className="flex items-center px-4 py-2 text-gray-300 hover:text-white transition-colors duration-200 rounded-lg hover:bg-white/5">
+                      {item.name}
+                      <ChevronDown className="ml-1 h-4 w-4 text-red-400 transition-transform duration-200 group-hover:rotate-180" />
+                    </button>
+                    <AnimatePresence>
+                      {activeDropdown === item.name && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          transition={{ duration: 0.2 }}
+                          className="absolute top-full left-0 mt-2 w-56 bg-black/95 backdrop-blur-xl border border-red-500/20 rounded-xl shadow-2xl shadow-red-900/20 overflow-hidden"
                         >
-                          <item.icon className="mr-2 h-4 w-4" />
-                          <span>{item.name}</span>
+                          {item.dropdown.map((dropdownItem) => (
+                            <Link
+                              key={dropdownItem.name}
+                              href={dropdownItem.href}
+                              className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-red-500/10 transition-all duration-200 border-b border-gray-800/50 last:border-b-0"
+                            >
+                              {dropdownItem.name}
+                            </Link>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className="px-4 py-2 text-gray-300 hover:text-white transition-colors duration-200 rounded-lg hover:bg-white/5"
+                  >
+                    {item.name}
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop Actions */}
+          <div className="hidden lg:flex items-center space-x-4">
+            {user ? (
+              <div className="relative group">
+                <button
+                  onClick={() => handleDropdownToggle("user")}
+                  className="flex items-center space-x-2 px-4 py-2 bg-gray-800/50 rounded-lg hover:bg-gray-700/50 transition-colors duration-200"
+                >
+                  <User className="h-4 w-4" />
+                  <span>{user.username}</span>
+                  <ChevronDown className="h-4 w-4 text-red-400" />
+                </button>
+                <AnimatePresence>
+                  {activeDropdown === "user" && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute top-full right-0 mt-2 w-48 bg-black/95 backdrop-blur-xl border border-red-500/20 rounded-xl shadow-2xl overflow-hidden"
+                    >
+                      <Link
+                        href="/dashboard"
+                        className="flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-red-500/10 transition-colors"
+                      >
+                        <Shield className="h-4 w-4 mr-2" />
+                        Dashboard
+                      </Link>
+                      <Link
+                        href="/settings"
+                        className="flex items-center px-4 py-3 text-gray-300 hover:text-white hover:bg-red-500/10 transition-colors"
+                      >
+                        <Settings className="h-4 w-4 mr-2" />
+                        Settings
+                      </Link>
+                      <button
+                        onClick={logout}
+                        className="flex items-center w-full px-4 py-3 text-gray-300 hover:text-white hover:bg-red-500/10 transition-colors"
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Logout
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            ) : (
+              <>
+                <Link
+                  href="/download"
+                  className="px-6 py-2 text-gray-300 hover:text-white transition-colors duration-200 rounded-lg hover:bg-white/5"
+                >
+                  Download
+                </Link>
+                <motion.button
+                  onClick={handlePurchase}
+                  className="px-6 py-2 bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 text-white font-medium rounded-lg transition-all duration-300 shadow-lg shadow-red-900/20 hover:shadow-red-900/40"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Purchase
+                </motion.button>
+              </>
+            )}
+          </div>
+
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="lg:hidden p-2 text-gray-300 hover:text-white transition-colors duration-200"
+          >
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
+
+        {/* Mobile Navigation */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="lg:hidden border-t border-gray-800/50 bg-black/95 backdrop-blur-xl"
+            >
+              <div className="py-4 space-y-2">
+                {navigation.map((item) => (
+                  <div key={item.name}>
+                    {item.dropdown ? (
+                      <div>
+                        <button
+                          onClick={() => handleDropdownToggle(item.name)}
+                          className="flex items-center justify-between w-full px-4 py-3 text-gray-300 hover:text-white transition-colors duration-200"
+                        >
+                          {item.name}
                           <ChevronDown
-                            className={`ml-1 h-4 w-4 transition-transform duration-200 ${
+                            className={`h-4 w-4 text-red-400 transition-transform duration-200 ${
                               activeDropdown === item.name ? "rotate-180" : ""
                             }`}
                           />
                         </button>
-
                         <AnimatePresence>
                           {activeDropdown === item.name && (
                             <motion.div
-                              initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                              animate={{ opacity: 1, y: 0, scale: 1 }}
-                              exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                              transition={{ duration: 0.15, ease: "easeOut" }}
-                              className="absolute top-full left-0 mt-2 w-56 bg-black/95 backdrop-blur-md border border-red-500/20 rounded-lg shadow-xl shadow-red-900/20 overflow-hidden z-50"
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              className="bg-gray-900/50"
                             >
-                              <div className="py-2">
-                                {item.items?.map((subItem, subIndex) => (
-                                  <Link
-                                    key={subIndex}
-                                    href={subItem.path}
-                                    className="block px-4 py-3 text-gray-300 hover:text-white hover:bg-red-500/10 transition-colors duration-150"
-                                    onClick={() => setActiveDropdown(null)}
-                                  >
-                                    {subItem.name}
-                                  </Link>
-                                ))}
-                              </div>
+                              {item.dropdown.map((dropdownItem) => (
+                                <Link
+                                  key={dropdownItem.name}
+                                  href={dropdownItem.href}
+                                  className="block px-8 py-2 text-gray-400 hover:text-white transition-colors duration-200"
+                                  onClick={() => setIsOpen(false)}
+                                >
+                                  {dropdownItem.name}
+                                </Link>
+                              ))}
                             </motion.div>
                           )}
                         </AnimatePresence>
                       </div>
                     ) : (
                       <Link
-                        href={item.path}
-                        className={`px-4 py-2 rounded-md transition-colors duration-200 flex items-center ${
-                          isActive(item.path)
-                            ? "text-white font-medium bg-red-500/10"
-                            : "text-gray-300 hover:text-white hover:bg-white/5"
-                        }`}
+                        href={item.href}
+                        className="block px-4 py-3 text-gray-300 hover:text-white transition-colors duration-200"
+                        onClick={() => setIsOpen(false)}
                       >
-                        <item.icon className="mr-2 h-4 w-4" />
-                        <motion.span whileHover={{ y: -2 }} transition={{ duration: 0.2 }} className="inline-block">
-                          {item.name}
-                        </motion.span>
+                        {item.name}
                       </Link>
                     )}
                   </div>
                 ))}
-              </div>
-
-              {/* Purchase Button */}
-              <div className="flex items-center">
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }} className="relative group">
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-red-600 to-red-900 rounded-md blur opacity-30 group-hover:opacity-70 transition duration-300"></div>
-                  <motion.button
-                    onClick={handlePurchase}
-                    className="relative flex items-center bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 px-4 py-2 rounded-md text-white font-medium transition-colors duration-300 shadow-lg shadow-red-900/20 hover:shadow-red-900/40"
-                  >
-                    <ShoppingCart className="mr-2 h-4 w-4" />
-                    <span className="relative">
-                      <span className="relative z-10">GET CALAMARI</span>
-                      <span className="absolute bottom-0 left-0 w-full h-[2px] bg-white/30 rounded-full"></span>
-                    </span>
-                  </motion.button>
-                </motion.div>
-
-                {/* Mobile Menu Button */}
-                <motion.button
-                  className="lg:hidden text-white ml-4 p-2 rounded-md hover:bg-white/10 transition-colors"
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                >
-                  <AnimatePresence mode="wait">
-                    {isMenuOpen ? (
-                      <motion.div
-                        key="close"
-                        initial={{ rotate: -90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: 90, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
+                <div className="border-t border-gray-800/50 pt-4 mt-4 space-y-2">
+                  {user ? (
+                    <>
+                      <Link
+                        href="/dashboard"
+                        className="block px-4 py-3 text-gray-300 hover:text-white transition-colors duration-200"
+                        onClick={() => setIsOpen(false)}
                       >
-                        <X className="h-6 w-6" />
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="menu"
-                        initial={{ rotate: 90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: -90, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
+                        Dashboard
+                      </Link>
+                      <button
+                        onClick={() => {
+                          logout()
+                          setIsOpen(false)
+                        }}
+                        className="block w-full text-left px-4 py-3 text-gray-300 hover:text-white transition-colors duration-200"
                       >
-                        <Menu className="h-6 w-6" />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              className="lg:hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-md pt-16 overflow-auto"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="container mx-auto px-4 py-6">
-                <nav className="flex flex-col space-y-2">
-                  {menuItems.map((item, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                    >
-                      {item.dropdown ? (
-                        <div className="mb-2">
-                          <button
-                            onClick={() => toggleDropdown(item.name)}
-                            className={`flex items-center justify-between w-full px-4 py-3 rounded-lg transition-colors ${
-                              activeDropdown === item.name
-                                ? "bg-red-900/20 text-white font-medium border border-red-500/30"
-                                : "bg-gray-900/30 text-gray-200 hover:text-white"
-                            }`}
-                          >
-                            <div className="flex items-center">
-                              <item.icon className="mr-3 h-5 w-5" />
-                              <span className="text-lg">{item.name}</span>
-                            </div>
-                            <ChevronDown
-                              className={`h-5 w-5 transition-transform duration-200 ${
-                                activeDropdown === item.name ? "rotate-180" : ""
-                              }`}
-                            />
-                          </button>
-                          <AnimatePresence>
-                            {activeDropdown === item.name && (
-                              <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: "auto" }}
-                                exit={{ opacity: 0, height: 0 }}
-                                transition={{ duration: 0.2 }}
-                                className="mt-1 pl-4 border-l-2 border-red-500/30 ml-4"
-                              >
-                                {item.items?.map((subItem, subIndex) => (
-                                  <Link
-                                    key={subIndex}
-                                    href={subItem.path}
-                                    className="block px-4 py-2 my-1 rounded-lg bg-gray-900/30 text-gray-300 hover:text-white hover:bg-red-900/10 transition-colors"
-                                    onClick={() => {
-                                      setActiveDropdown(null)
-                                      setIsMenuOpen(false)
-                                    }}
-                                  >
-                                    {subItem.name}
-                                  </Link>
-                                ))}
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                      ) : (
-                        <Link
-                          href={item.path}
-                          className={`flex items-center px-4 py-3 rounded-lg transition-colors ${
-                            isActive(item.path)
-                              ? "bg-red-900/20 text-white font-medium border border-red-500/30"
-                              : "bg-gray-900/30 text-gray-200 hover:text-white"
-                          }`}
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          <item.icon className="mr-3 h-5 w-5" />
-                          <motion.span
-                            whileHover={{ x: 3 }}
-                            transition={{ duration: 0.2 }}
-                            className="inline-block text-lg"
-                          >
-                            {item.name}
-                          </motion.span>
-                        </Link>
-                      )}
-                    </motion.div>
-                  ))}
-
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: (menuItems.length + 1) * 0.1 }}
-                    className="mt-6 relative group"
-                  >
-                    <div className="absolute -inset-0.5 bg-gradient-to-r from-red-600 to-red-900 rounded-md blur opacity-30 group-hover:opacity-70 transition duration-300"></div>
-                    <motion.button
-                      onClick={() => {
-                        setIsMenuOpen(false)
-                        handlePurchase()
-                      }}
-                      className="relative flex w-full items-center justify-center bg-gradient-to-r from-red-700 to-red-600 hover:from-red-600 hover:to-red-500 px-4 py-4 rounded-md text-white font-medium transition-colors duration-300 shadow-lg shadow-red-900/20 hover:shadow-red-900/40"
-                    >
-                      <ShoppingCart className="mr-2 h-5 w-5" />
-                      GET CALAMARI
-                    </motion.button>
-                  </motion.div>
-                </nav>
+                        Logout
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/download"
+                        className="block px-4 py-3 text-gray-300 hover:text-white transition-colors duration-200"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        Download
+                      </Link>
+                      <button
+                        onClick={() => {
+                          handlePurchase()
+                          setIsOpen(false)
+                        }}
+                        className="block w-full text-left px-4 py-3 bg-gradient-to-r from-red-600 to-red-500 text-white font-medium rounded-lg mx-4"
+                      >
+                        Purchase
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.header>
-    </>
+      </div>
+    </motion.nav>
   )
 }

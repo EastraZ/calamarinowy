@@ -1,152 +1,150 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { motion } from "framer-motion"
-import { Check, X } from "lucide-react"
+import Image from "next/image"
+import { Check, X, Crown } from "lucide-react"
 
 export default function FeatureComparison() {
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
+  const [hoveredPlan, setHoveredPlan] = useState<string | null>(null)
 
   const features = [
-    { name: "Magic Bullet", calamari: true, competitor1: false, competitor2: true },
-    { name: "Advanced ESP", calamari: true, competitor1: true, competitor2: true },
-    { name: "HWID Spoofer", calamari: true, competitor1: true, competitor2: false },
-    { name: "Kernel-Level Protection", calamari: true, competitor1: false, competitor2: false },
-    { name: "Undetected Status", calamari: true, competitor1: false, competitor2: true },
-    { name: "24/7 Support", calamari: true, competitor1: false, competitor2: false },
-    { name: "Regular Updates", calamari: true, competitor1: true, competitor2: false },
-    { name: "Custom Features", calamari: true, competitor1: false, competitor2: false },
+    "Advanced ESP System",
+    "Precision Aimbot",
+    "Anti-Detection Technology",
+    "Kernel-Level Protection",
+    "Real-time Updates",
+    "24/7 Support",
+    "Custom Configurations",
+    "Performance Optimization",
+    "Multi-Game Support",
+    "Lifetime Updates",
   ]
 
-  if (!mounted) return null
+  const plans = [
+    {
+      name: "Calamari.lol",
+      type: "Premium",
+      icon: "/images/calamari-symbol.png",
+      color: "red",
+      features: [true, true, true, true, true, true, true, true, true, true],
+      highlight: true,
+    },
+    {
+      name: "Competitor",
+      type: "Standard",
+      icon: null,
+      color: "gray",
+      features: [true, false, false, false, true, false, false, false, false, false],
+      highlight: false,
+    },
+  ]
 
   return (
-    <section className="container mx-auto px-4 py-16">
-      <motion.div
-        className="text-center mb-12"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-gray-100 to-gray-300 bg-clip-text text-transparent">
-          Why Choose Calamari?
-        </h2>
-        <p className="text-gray-300 max-w-2xl mx-auto text-lg">See how we compare to other gaming enhancement tools</p>
-      </motion.div>
-
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[600px]">
-          <thead>
-            <tr>
-              <th className="p-4 text-left text-gray-400 font-medium">Feature</th>
-              <th className="p-4 text-center">
-                <div className="flex flex-col items-center">
-                  <div className="h-12 w-12 mb-2 relative">
-                    <img src="/images/calamari-box.png" alt="Calamari Logo" className="object-contain w-full h-full" />
-                  </div>
-                  <div className="text-red-400 font-bold mb-1">Calamari</div>
-                  <div className="text-xs text-gray-500">Premium</div>
-                </div>
-              </th>
-              <th className="p-4 text-center">
-                <div className="flex flex-col items-center">
-                  <div className="h-12 w-12 mb-2 bg-gray-800 rounded-md flex items-center justify-center">
-                    <span className="text-gray-400 font-bold text-sm">MEK</span>
-                  </div>
-                  <div className="text-gray-300 font-bold mb-1">MEK</div>
-                  <div className="text-xs text-gray-500">Standard</div>
-                </div>
-              </th>
-              <th className="p-4 text-center">
-                <div className="flex flex-col items-center">
-                  <div className="h-12 w-12 mb-2 bg-blue-900/30 rounded-md flex items-center justify-center border border-blue-500/30">
-                    <span className="text-blue-400 font-bold text-xs">FLUENT</span>
-                  </div>
-                  <div className="text-gray-300 font-bold mb-1">Fluent</div>
-                  <div className="text-xs text-gray-500">Premium</div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {features.map((feature, index) => (
-              <motion.tr
-                key={index}
-                className="border-t border-gray-800"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <td className="p-4 text-left">{feature.name}</td>
-                <td className="p-4 text-center">
-                  {feature.calamari ? (
-                    <div className="flex justify-center">
-                      <div className="bg-green-500/20 p-1 rounded-full">
-                        <Check className="w-4 h-4 text-green-500" />
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex justify-center">
-                      <div className="bg-red-500/20 p-1 rounded-full">
-                        <X className="w-4 h-4 text-red-500" />
-                      </div>
-                    </div>
-                  )}
-                </td>
-                <td className="p-4 text-center">
-                  {feature.competitor1 ? (
-                    <div className="flex justify-center">
-                      <div className="bg-green-500/20 p-1 rounded-full">
-                        <Check className="w-4 h-4 text-green-500" />
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex justify-center">
-                      <div className="bg-red-500/20 p-1 rounded-full">
-                        <X className="w-4 h-4 text-red-500" />
-                      </div>
-                    </div>
-                  )}
-                </td>
-                <td className="p-4 text-center">
-                  {feature.competitor2 ? (
-                    <div className="flex justify-center">
-                      <div className="bg-green-500/20 p-1 rounded-full">
-                        <Check className="w-4 h-4 text-green-500" />
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex justify-center">
-                      <div className="bg-red-500/20 p-1 rounded-full">
-                        <X className="w-4 h-4 text-red-500" />
-                      </div>
-                    </div>
-                  )}
-                </td>
-              </motion.tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      <motion.div
-        className="mt-8 bg-gradient-to-r from-red-500/10 to-orange-500/10 border border-red-500/20 rounded-xl p-6"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.5 }}
-      >
-        <div className="text-center">
-          <h3 className="text-xl font-bold mb-2">The Calamari Advantage</h3>
-          <p className="text-gray-300">
-            With industry-leading features, unmatched security, and dedicated support, Calamari provides the ultimate
-            gaming enhancement experience.
+    <section className="py-20 px-4 bg-gradient-to-br from-black via-gray-900 to-black">
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <h2 className="text-5xl md:text-6xl font-bold mb-6">
+            Why Choose{" "}
+            <span className="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+              Calamari.lol?
+            </span>
+          </h2>
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            See how we compare to other gaming enhancement tools
           </p>
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {plans.map((plan, planIndex) => (
+            <motion.div
+              key={plan.name}
+              className={`relative rounded-2xl border p-8 transition-all duration-300 ${
+                plan.highlight
+                  ? "bg-gradient-to-br from-red-900/20 to-transparent border-red-500/50 shadow-2xl shadow-red-900/20"
+                  : "bg-white/5 border-white/10"
+              }`}
+              onMouseEnter={() => setHoveredPlan(plan.name)}
+              onMouseLeave={() => setHoveredPlan(null)}
+              whileHover={{ scale: 1.02 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: planIndex * 0.2, duration: 0.6 }}
+            >
+              {plan.highlight && (
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                  <div className="bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-full text-sm font-bold flex items-center">
+                    <Crown className="w-4 h-4 mr-2" />
+                    RECOMMENDED
+                  </div>
+                </div>
+              )}
+
+              <div className="text-center mb-8">
+                <div className="flex items-center justify-center mb-4">
+                  {plan.icon ? (
+                    <Image
+                      src={plan.icon || "/placeholder.svg"}
+                      alt={plan.name}
+                      width={60}
+                      height={60}
+                      className="rounded-full"
+                    />
+                  ) : (
+                    <div className="w-15 h-15 bg-gray-600 rounded-full flex items-center justify-center">
+                      <span className="text-gray-400 font-bold">?</span>
+                    </div>
+                  )}
+                </div>
+                <h3 className={`text-2xl font-bold mb-2 ${plan.highlight ? "text-red-400" : "text-gray-400"}`}>
+                  {plan.name}
+                </h3>
+                <p className="text-gray-400">{plan.type}</p>
+              </div>
+
+              <div className="space-y-4">
+                {features.map((feature, featureIndex) => (
+                  <motion.div
+                    key={feature}
+                    className="flex items-center justify-between p-3 rounded-lg bg-white/5"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: featureIndex * 0.05, duration: 0.3 }}
+                  >
+                    <span className="text-gray-300 text-sm">{feature}</span>
+                    {plan.features[featureIndex] ? (
+                      <Check className={`w-5 h-5 ${plan.highlight ? "text-red-400" : "text-gray-400"}`} />
+                    ) : (
+                      <X className="w-5 h-5 text-gray-600" />
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+
+              {plan.highlight && (
+                <motion.div
+                  className="mt-8 text-center"
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
+                  transition={{ delay: 0.5, duration: 0.5 }}
+                >
+                  <button
+                    onClick={() => window.open("https://calamari.mysellauth.com/", "_blank")}
+                    className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold px-8 py-3 rounded-lg transition-all duration-300 shadow-lg shadow-red-900/30"
+                  >
+                    Get Calamari.lol Now
+                  </button>
+                </motion.div>
+              )}
+            </motion.div>
+          ))}
         </div>
-      </motion.div>
+      </div>
     </section>
   )
 }
