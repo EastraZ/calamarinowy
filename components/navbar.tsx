@@ -44,7 +44,6 @@ export default function Navbar() {
         { name: "Anti-Detection", href: "/features#anti-detection" },
       ],
     },
-    { name: "Pricing", href: "/pricing" },
     {
       name: "Support",
       href: "/support",
