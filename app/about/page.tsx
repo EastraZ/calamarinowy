@@ -19,8 +19,8 @@ export default function AboutPage() {
     },
     {
       date: "June 2024",
-      title: "5M+ Users Milestone",
-      description: "Reached 5 million satisfied users worldwide.",
+      title: "7K+ Users Milestone",
+      description: "Reached 7,000 satisfied users worldwide.",
     },
     {
       date: "December 2024",
@@ -38,7 +38,7 @@ export default function AboutPage() {
     {
       icon: <Users className="h-6 w-6 text-orange-500" />,
       title: "Community First",
-      description: "Over 5 million satisfied gamers trust Calamari.lol for their competitive advantage.",
+      description: "Over 7,000 satisfied gamers trust Calamari.lol for their competitive advantage.",
     },
     {
       icon: <Clock className="h-6 w-6 text-red-500" />,
@@ -108,8 +108,8 @@ export default function AboutPage() {
               </span>
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              The world's most advanced gaming enhancement platform. Trusted by over 5 million elite gamers worldwide
-              with a perfect undetected record since 2024.
+              The world's most advanced gaming enhancement platform. Trusted by over 7,000 elite gamers worldwide with a
+              perfect undetected record since 2024.
             </p>
           </motion.div>
 
@@ -132,7 +132,7 @@ export default function AboutPage() {
             </div>
             <div className="bg-gray-900/50 backdrop-blur-sm border border-red-500/20 rounded-lg p-6 text-center">
               <Users className="h-8 w-8 text-red-500 mx-auto mb-3" />
-              <div className="text-2xl font-bold text-red-500">5M+</div>
+              <div className="text-2xl font-bold text-red-500">7K+</div>
               <div className="text-sm text-gray-400">Users</div>
             </div>
             <div className="bg-gray-900/50 backdrop-blur-sm border border-orange-500/20 rounded-lg p-6 text-center">
@@ -162,7 +162,7 @@ export default function AboutPage() {
                 </p>
                 <p>
                   Since launch, we've maintained a perfect 100% undetected record across all supported games, serving
-                  over 5 million satisfied customers worldwide.
+                  over 7,000 satisfied customers worldwide.
                 </p>
                 <p>
                   Our commitment to innovation, security, and customer satisfaction has made us the most trusted name in
@@ -292,7 +292,7 @@ export default function AboutPage() {
             <div className="bg-gray-900/30 backdrop-blur-sm border border-red-500/20 rounded-xl p-8 mb-8">
               <h2 className="text-3xl font-bold mb-4">Ready to Dominate Your Games?</h2>
               <p className="text-gray-400 mb-6 max-w-2xl mx-auto">
-                Join over 5 million elite gamers who trust Calamari.lol for their competitive advantage.
+                Join over 7,000 elite gamers who trust Calamari.lol for their competitive advantage.
               </p>
               <Link
                 href="/"

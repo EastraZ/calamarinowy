@@ -171,7 +171,7 @@ export default function Home() {
               transition={{ duration: 0.8 }}
             >
               <div className="text-center card-modern glass rounded-xl p-6 border border-red-500/20">
-                <div className="text-3xl md:text-4xl font-bold text-red-400 mb-2">50K+</div>
+                <div className="text-3xl md:text-4xl font-bold text-red-400 mb-2">7K+</div>
                 <div className="text-gray-300">Active Users</div>
               </div>
               <div className="text-center card-modern glass rounded-xl p-6 border border-red-500/20">
@@ -183,7 +183,7 @@ export default function Home() {
                 <div className="text-gray-300">Support</div>
               </div>
               <div className="text-center card-modern glass rounded-xl p-6 border border-yellow-500/20">
-                <div className="text-3xl md:text-4xl font-bold text-yellow-400 mb-2">5★</div>
+                <div className="text-3xl md:text-4xl font-bold text-yellow-400 mb-2">4.9★</div>
                 <div className="text-gray-300">Rating</div>
               </div>
             </motion.div>

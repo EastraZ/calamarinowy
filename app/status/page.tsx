@@ -13,7 +13,7 @@ export default function StatusPage() {
       lastUpdated: "December 16, 2024",
       description: "Advanced Rust enhancement tools with ESP, aimbot, and resource tracking.",
       uptime: "99.9%",
-      users: "2.1M+",
+      users: "3.2K+",
     },
     {
       id: "fortnite",
@@ -22,7 +22,7 @@ export default function StatusPage() {
       lastUpdated: "December 15, 2024",
       description: "Victory Royale tools with aimbot, ESP, and building assistance.",
       uptime: "99.8%",
-      users: "1.8M+",
+      users: "2.8K+",
     },
     {
       id: "apex",
@@ -31,7 +31,7 @@ export default function StatusPage() {
       lastUpdated: "December 14, 2024",
       description: "Champion-level Apex Legends tools with advanced movement and tracking.",
       uptime: "99.9%",
-      users: "1.5M+",
+      users: "1.9K+",
     },
   ]
 
@@ -108,7 +108,7 @@ export default function StatusPage() {
             </div>
             <div className="bg-gray-900/50 backdrop-blur-sm border border-red-500/20 rounded-lg p-6 text-center">
               <Users className="h-8 w-8 text-red-500 mx-auto mb-3" />
-              <div className="text-2xl font-bold text-red-500">5M+</div>
+              <div className="text-2xl font-bold text-red-500">7K+</div>
               <div className="text-sm text-gray-400">Active Users</div>
             </div>
             <div className="bg-gray-900/50 backdrop-blur-sm border border-orange-500/20 rounded-lg p-6 text-center">
