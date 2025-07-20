@@ -1,0 +1,413 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%; /* Typically your main dark background */
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%; /* Dark card background */
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%; /* Dark border color */
+    --input: 217.2 32.6% 17.5%;
+    --ring: 215 20.2% 65.1%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    /* Apply the dark theme by default if your site is always dark */
+    /* or use ThemeProvider from shadcn/ui */
+    @apply dark;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+html, body {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+  height: 100%;
+}
+
+/* Utility to hide scrollbar */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Custom scrollbar for Webkit browsers */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  background: transparent;
+}
+::-webkit-scrollbar-track {
+  background: #181c27;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #23263a 40%, #383842 100%);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px 0 rgba(239,68,68,0.08);
+  border: 2px solid #181c27;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #ff0033 0%, #23263a 80%);
+  box-shadow: 0 0 8px 2px rgba(255,0,51,0.18);
+}
+
+/* For the bounce animation of the scroll mouse icon */
+@keyframes bounce-custom {
+  /* Renamed to avoid conflict if Tailwind's bounce is different */
+  0%,
+  100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-bounce-custom {
+  animation: bounce-custom 1s infinite;
+}
+
+/* Styles for react-draggable */
+.react-draggable {
+  position: absolute; /* Ensure it can be dragged within its parent bounds */
+}
+.react-draggable-dragging {
+  cursor: grabbing !important;
+  z-index: 20; /* Bring to front while dragging */
+}
+
+/* Ensure the parent of RadianceCard has position: relative for bounds to work */
+/* This is set inline in app/page.tsx on the div wrapping RadianceCard */
+
+/* Scroll reveal animations */
+.scroll-animate-fade-in-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-animate-fade-in-up.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes pulse-logo {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+.animate-pulse-logo {
+  animation: pulse-logo 1.2s infinite;
+}
+
+/* Ethereal Multi-Directional Shooting Stars */
+.shooting-star {
+  position: absolute;
+  width: 90px;
+  height: 4px;
+  background: linear-gradient(90deg, #ffe066 0%, #fffbe0 60%, rgba(255,255,255,0) 100%);
+  border-radius: 999px;
+  filter: blur(2px) brightness(1.3);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 40;
+}
+
+.shooting-star-1 {
+  top: 10%; left: 5%;
+  transform: rotate(25deg);
+  animation: shooting-star-diag1 2.8s linear infinite;
+  animation-delay: 0s;
+}
+.shooting-star-2 {
+  top: 20%; right: 10%;
+  transform: rotate(-30deg);
+  animation: shooting-star-diag2 3.2s linear infinite;
+  animation-delay: 1.1s;
+}
+.shooting-star-3 {
+  top: 60%; left: 15%;
+  transform: rotate(0deg);
+  animation: shooting-star-horiz 2.5s linear infinite;
+  animation-delay: 2.2s;
+}
+.shooting-star-4 {
+  bottom: 18%; right: 12%;
+  transform: rotate(180deg);
+  animation: shooting-star-horiz-rev 2.7s linear infinite;
+  animation-delay: 0.7s;
+}
+.shooting-star-5 {
+  bottom: 10%; left: 30%;
+  transform: rotate(-45deg);
+  animation: shooting-star-diag3 3.1s linear infinite;
+  animation-delay: 1.8s;
+}
+
+@keyframes shooting-star-diag1 {
+  0% { opacity: 0; transform: translate(0,0) rotate(25deg) scaleX(0.7); }
+  10% { opacity: 1; }
+  80% { opacity: 1; transform: translate(120px,80px) rotate(25deg) scaleX(1.1); }
+  100% { opacity: 0; transform: translate(180px,120px) rotate(25deg) scaleX(0.7); }
+}
+@keyframes shooting-star-diag2 {
+  0% { opacity: 0; transform: translate(0,0) rotate(-30deg) scaleX(0.7); }
+  10% { opacity: 1; }
+  80% { opacity: 1; transform: translate(-120px,100px) rotate(-30deg) scaleX(1.1); }
+  100% { opacity: 0; transform: translate(-180px,160px) rotate(-30deg) scaleX(0.7); }
+}
+@keyframes shooting-star-horiz {
+  0% { opacity: 0; transform: translate(0,0) rotate(0deg) scaleX(0.7); }
+  10% { opacity: 1; }
+  80% { opacity: 1; transform: translateX(100px) rotate(0deg) scaleX(1.1); }
+  100% { opacity: 0; transform: translateX(160px) rotate(0deg) scaleX(0.7); }
+}
+@keyframes shooting-star-horiz-rev {
+  0% { opacity: 0; transform: translate(0,0) rotate(180deg) scaleX(0.7); }
+  10% { opacity: 1; }
+  80% { opacity: 1; transform: translateX(-100px) rotate(180deg) scaleX(1.1); }
+  100% { opacity: 0; transform: translateX(-160px) rotate(180deg) scaleX(0.7); }
+}
+@keyframes shooting-star-diag3 {
+  0% { opacity: 0; transform: translate(0,0) rotate(-45deg) scaleX(0.7); }
+  10% { opacity: 1; }
+  80% { opacity: 1; transform: translate(90px,-90px) rotate(-45deg) scaleX(1.1); }
+  100% { opacity: 0; transform: translate(140px,-140px) rotate(-45deg) scaleX(0.7); }
+}
+
+/* Ethereal Falling Leaves */
+.falling-leaf {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 40;
+  filter: drop-shadow(0 2px 8px #ffe06688) blur(0.5px);
+}
+.falling-leaf-1 {
+  left: 10%;
+  animation: leaf-fall-1 14s linear infinite;
+  animation-delay: 0s;
+}
+.falling-leaf-2 {
+  left: 30%;
+  animation: leaf-fall-2 16s linear infinite;
+  animation-delay: 3.5s;
+}
+.falling-leaf-3 {
+  left: 55%;
+  animation: leaf-fall-3 18s linear infinite;
+  animation-delay: 7.2s;
+}
+.falling-leaf-4 {
+  left: 70%;
+  animation: leaf-fall-4 15s linear infinite;
+  animation-delay: 5.1s;
+}
+.falling-leaf-5 {
+  left: 85%;
+  animation: leaf-fall-5 12s linear infinite;
+  animation: leaf-fall-5 6.9s linear infinite;
+  animation-delay: 3.2s;
+}
+
+@keyframes leaf-fall-1 {
+  0% { opacity: 0; transform: translateY(-40px) rotate(-10deg) scale(0.9); }
+  10% { opacity: 1; }
+  40% { transform: translateY(40vh) rotate(8deg) scale(1.05); }
+  70% { transform: translateY(70vh) rotate(-12deg) scale(1); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(100vh) rotate(16deg) scale(0.95); }
+}
+@keyframes leaf-fall-2 {
+  0% { opacity: 0; transform: translateY(-40px) rotate(12deg) scale(1.1); }
+  10% { opacity: 1; }
+  40% { transform: translateY(30vh) rotate(-16deg) scale(1.05); }
+  70% { transform: translateY(80vh) rotate(18deg) scale(1); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(100vh) rotate(-8deg) scale(1.1); }
+}
+@keyframes leaf-fall-3 {
+  0% { opacity: 0; transform: translateY(-40px) rotate(0deg) scale(1); }
+  10% { opacity: 1; }
+  40% { transform: translateY(50vh) rotate(10deg) scale(1.08); }
+  70% { transform: translateY(75vh) rotate(-10deg) scale(1); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(100vh) rotate(6deg) scale(0.92); }
+}
+@keyframes leaf-fall-4 {
+  0% { opacity: 0; transform: translateY(-40px) rotate(-18deg) scale(0.95); }
+  10% { opacity: 1; }
+  40% { transform: translateY(60vh) rotate(14deg) scale(1.1); }
+  70% { transform: translateY(85vh) rotate(-14deg) scale(1); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(100vh) rotate(20deg) scale(1.05); }
+}
+@keyframes leaf-fall-5 {
+  0% { opacity: 0; transform: translateY(-40px) rotate(8deg) scale(1.05); }
+  10% { opacity: 1; }
+  40% { transform: translateY(40vh) rotate(-8deg) scale(1.1); }
+  70% { transform: translateY(90vh) rotate(12deg) scale(1); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(100vh) rotate(-12deg) scale(0.98); }
+}
+
+.falling-leaf.gust-active {
+  animation: leaf-gust 1.5s cubic-bezier(0.6,0.2,0.8,1) !important;
+}
+
+@keyframes leaf-gust {
+  0% {
+    opacity: 1;
+    filter: drop-shadow(0 2px 8px #ffe06688) blur(0.5px);
+    transform: translateY(0) translateX(0) rotate(0deg) scale(1);
+  }
+  60% {
+    opacity: 1;
+    filter: drop-shadow(0 2px 16px #ffe066cc) blur(1px);
+    transform: translateY(-10px) translateX(120vw) rotate(40deg) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    filter: drop-shadow(0 2px 0px #ffe06600) blur(2px);
+    transform: translateY(-10px) translateX(140vw) rotate(60deg) scale(0.9);
+  }
+}
+
+.shiny-text {
+  display: inline-block;
+  color: #ef4444; /* Tailwind red-500 */
+  position: relative;
+}
+.shiny-text {
+  /* Silver shine overlay */
+  background: linear-gradient(120deg, transparent 0%, transparent 35%, #e0e0e0 45%, #fff 50%, #e0e0e0 55%, transparent 65%, transparent 100%);
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shiny-sweep-silver 2.8s linear infinite;
+}
+
+@keyframes shiny-sweep-silver {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: 0 0;
+  }
+}
+
+.shiny-text-overlay {
+  position: absolute;
+  inset: 0;
+  display: inline-block;
+  pointer-events: none;
+  background: linear-gradient(120deg,
+    transparent 0%,
+    rgba(191,199,209,0.0) 35%,
+    rgba(191,199,209,0.45) 42%,
+    #f8fafc 48%,
+    #fff 50%,
+    #f8fafc 52%,
+    rgba(191,199,209,0.45) 58%,
+    rgba(191,199,209,0.0) 65%,
+    transparent 100%
+  );
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  mix-blend-mode: lighten;
+  animation: shiny-sweep-silver 3.5s cubic-bezier(0.4,0.2,0.6,1) infinite;
+  white-space: pre;
+  filter: blur(0.5px) brightness(1.15);
+}
+
+@keyframes shiny-sweep-silver {
+  0% {
+    background-position: 250% 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    background-position: 0 0;
+    opacity: 0;
+  }
+}

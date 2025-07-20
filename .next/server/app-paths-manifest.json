@@ -1,0 +1,6 @@
+{
+  "/api/sellauth/checkout/route": "app/api/sellauth/checkout/route.js",
+  "/assets/page": "app/assets/page.js",
+  "/menu-demo/page": "app/menu-demo/page.js",
+  "/page": "app/page.js"
+}
